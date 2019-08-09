@@ -1,0 +1,53 @@
+package com.levi.manager.daos;
+
+import com.levi.manager.dtos.RestaurantFilteredDTO;
+import com.levi.manager.dtos.RestaurantSearchDTO;
+import com.levi.manager.entities.Restaurant;
+import com.levi.manager.util.HibernateUtil;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+import static org.hibernate.internal.util.collections.CollectionHelper.isNotEmpty;
+
+
+@Repository
+public class RestaurantDao {
+
+    //TODO Atualizar hibernate
+
+
+
+    private static Criteria getCriteriaQuery() {
+        return HibernateUtil.getSessionFactory().getCurrentSession().createCriteria(Restaurant.class);
+    }
+
+    public List<RestaurantFilteredDTO> findFilteredRestaurants(RestaurantSearchDTO restaurantSearchDTO) {
+        Criteria  criteria = getCriteriaQuery();
+
+        criteria.setProjection(Projections.property("name"));
+        criteria.setProjection(Projections.property("category"));
+        criteria.setProjection(Projections.property("cost"));
+        criteria.setProjection(Projections.property("latitude"));
+        criteria.setProjection(Projections.property("longitude"));
+        criteria.setProjection(Projections.property("rateCount"));
+        criteria.setProjection(Projections.property("rateSum"));
+
+        if(restaurantSearchDTO.getDeliveryFee() != null) {
+            //criteria.add(Restrictions.le(""))
+        }
+        if(isNotEmpty(restaurantSearchDTO.getCategories())) {
+            restaurantSearchDTO.getCategories().forEach(restaurantCategory -> criteria.add(Restrictions.eq("category", restaurantCategory)));
+        }
+
+        if(restaurantSearchDTO.getPaymentAcceptanceDTO() != null) {
+
+        }
+
+        return null;
+    }
+
+}
