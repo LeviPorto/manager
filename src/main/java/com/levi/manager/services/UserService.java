@@ -4,6 +4,7 @@ import com.levi.manager.entities.User;
 import com.levi.manager.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,6 +18,10 @@ public class UserService {
 
     public Optional<User> retrieveById(Integer id) {
         return repository.findById(id);
+    }
+
+    public List<User> retrieveByIds(List<Integer> ids) {
+        return repository.findByIdIn(ids);
     }
 
 }
