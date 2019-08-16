@@ -25,9 +25,6 @@ public class Restaurant extends CompanyContact {
     private Double cost;
 
     @Column
-    private Integer rateCount;
-
-    @Column
-    private Double rateSum;
+    private Double rate;
 
 }

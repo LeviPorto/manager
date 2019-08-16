@@ -1,5 +1,21 @@
 package com.levi.manager.listener;
 
-public interface SuperRestaurantListener {
-    void updateIsSuperRestaurant(Boolean isSuperRestaurant);
+import com.levi.manager.dtos.AvaliatedRestaurantDTO;
+import com.levi.manager.entities.Restaurant;
+import com.levi.manager.services.RestaurantService;
+
+public class SuperRestaurantListener implements UpdateRateListener {
+
+    private final RestaurantService restaurantService;
+
+    public SuperRestaurantListener(final RestaurantService restaurantService) {
+        this.restaurantService = restaurantService;
+    }
+
+    @Override
+    public void rateWasUpdated(AvaliatedRestaurantDTO avaliatedRestaurantDTO, Restaurant restaurant) {
+        restaurant.setIsSuperRestaurant(avaliatedRestaurantDTO.getIsSuperRestaurant());
+        restaurantService.create(restaurant);
+    }
+
 }
