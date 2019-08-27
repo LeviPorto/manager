@@ -16,6 +16,16 @@ abstract class Contact extends LocalizedEntity {
     @Column
     private String simpleName;
     @Column
-    private String address;
+    private String street;
+    @Column
+    private String number;
+    @Column
+    private String complement;
+    @Column
+    private String city;
+    @Column
+    private String state;
+    @Column
+    private String country;
 
 }

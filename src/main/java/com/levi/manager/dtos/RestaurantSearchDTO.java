@@ -16,5 +16,6 @@ public class RestaurantSearchDTO {
     private PaymentAcceptanceDTO PaymentAcceptanceDTO;
     private SortSearch sortSearch;
     private Integer userId;
+    private String userCity;
 
 }

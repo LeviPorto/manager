@@ -17,7 +17,7 @@ public class RestaurantController {
 
     private final RestaurantService service;
 
-    public RestaurantController(final RestaurantService service){
+    public RestaurantController(final RestaurantService service) {
         this.service = service;
     }
 

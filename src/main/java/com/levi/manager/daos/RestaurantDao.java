@@ -20,13 +20,12 @@ public class RestaurantDao {
     //TODO Atualizar hibernate
 
 
-
     private static Criteria getCriteriaQuery() {
         return HibernateUtil.getSessionFactory().getCurrentSession().createCriteria(Restaurant.class);
     }
 
-    public List<RestaurantFilteredDTO> findFilteredRestaurants(RestaurantSearchDTO restaurantSearchDTO) {
-        Criteria  criteria = getCriteriaQuery();
+    public List<RestaurantFilteredDTO> findUserCityRestaurants(RestaurantSearchDTO restaurantSearchDTO) {
+        Criteria criteria = getCriteriaQuery();
 
         criteria.setProjection(Projections.property("name"));
         criteria.setProjection(Projections.property("category"));
@@ -36,16 +35,22 @@ public class RestaurantDao {
         criteria.setProjection(Projections.property("rateCount"));
         criteria.setProjection(Projections.property("rateSum"));
 
-        if(restaurantSearchDTO.getDeliveryFee() != null) {
-            //criteria.add(Restrictions.le(""))
+
+        criteria.add(Restrictions.eq("city", restaurantSearchDTO.getUserCity()));
+
+
+        //TODO Put ordering
+
+        /*if (restaurantSearchDTO.getDeliveryFee() != null) {
+
         }
-        if(isNotEmpty(restaurantSearchDTO.getCategories())) {
+        if (isNotEmpty(restaurantSearchDTO.getCategories())) {
             restaurantSearchDTO.getCategories().forEach(restaurantCategory -> criteria.add(Restrictions.eq("category", restaurantCategory)));
         }
 
-        if(restaurantSearchDTO.getPaymentAcceptanceDTO() != null) {
+        if (restaurantSearchDTO.getPaymentAcceptanceDTO() != null) {
 
-        }
+        }*/
 
         return null;
     }

@@ -11,9 +11,8 @@ import javax.persistence.Id;
 public class User extends PersonalContact {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
 
 
 }

@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Restaurant extends CompanyContact {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
