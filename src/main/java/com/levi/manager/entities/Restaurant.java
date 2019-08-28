@@ -25,6 +25,9 @@ public class Restaurant extends CompanyContact {
     private Double cost;
 
     @Column
+    private Double deliveryFee;
+
+    @Column
     private Double rate;
 
 }

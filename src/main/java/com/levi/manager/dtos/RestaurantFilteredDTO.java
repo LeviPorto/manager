@@ -8,5 +8,8 @@ public class RestaurantFilteredDTO {
 
     public RestaurantCategory restaurantCategory;
     public Integer restaurantId;
+    private Boolean isIFoodDelivery;
+    private Boolean isSuperRestaurant;
+    private Boolean hasTrackedDelivery;
 
 }

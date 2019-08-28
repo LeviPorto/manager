@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.levi.manager.services.DistanceCalculatorService.DEFAULT_DELIVERY_RADIUS_IN_METERS;
 import static org.hibernate.internal.util.collections.CollectionHelper.isNotEmpty;
 
 //TODO Melhorar o retrieve de restaurantes
@@ -48,15 +49,22 @@ public class RestaurantService {
 
         List<RestaurantFilteredDTO> orderedUserCityRestaurants = dao.findUserCityRestaurants(restaurantSearchDTO);
 
-        //TODO por calculo da distância aqui para reduzir as iterações
+        orderedUserCityRestaurants = filterByDefaultRadiusDistance(restaurantSearchDTO.getUserId(), orderedUserCityRestaurants);
 
-        orderedUserCityRestaurants = filterByDeliveryFee(restaurantSearchDTO.getDeliveryFee(), restaurantSearchDTO.getUserId(), orderedUserCityRestaurants);
         orderedUserCityRestaurants = filterByCategory(restaurantSearchDTO.getCategories(), orderedUserCityRestaurants);
+        orderedUserCityRestaurants = filterByDeliveryFee(restaurantSearchDTO.getDeliveryFee(), restaurantSearchDTO.getUserId(), orderedUserCityRestaurants);
+        orderedUserCityRestaurants = filterByDeliveryTime(restaurantSearchDTO.getDeliveryTime(), restaurantSearchDTO.getUserId(), orderedUserCityRestaurants);
+        orderedUserCityRestaurants = filterBySuperRestaurant(restaurantSearchDTO.getIsSuperRestaurant(), orderedUserCityRestaurants);
+        orderedUserCityRestaurants = filterByTrackedDelivery(restaurantSearchDTO.getHasTrackedDelivery(), orderedUserCityRestaurants);
+        orderedUserCityRestaurants = filterByIFoodDelivery(restaurantSearchDTO.getIsIFoodDelivery(), orderedUserCityRestaurants);
 
-        if (restaurantSearchDTO.getPaymentAcceptanceDTO() != null) {
+        //TODO Filtros por Payment Method
 
-        }
+    }
 
+    private List<RestaurantFilteredDTO> filterByDefaultRadiusDistance(Integer userId, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
+        return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> distanceCalculatorService
+                    .calculateRestaurantDefaultDeliveryRadius(userId, userCityRestaurant.getRestaurantId()) < DEFAULT_DELIVERY_RADIUS_IN_METERS).collect(Collectors.toList());
     }
 
     private List<RestaurantFilteredDTO> filterByCategory(List<RestaurantCategory> categoriesFilter, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
@@ -68,10 +76,45 @@ public class RestaurantService {
         }
     }
 
+
     private List<RestaurantFilteredDTO> filterByDeliveryFee(Integer deliveryFeeFilter, Integer userId, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
         if (deliveryFeeFilter != null) {
             return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> distanceCalculatorService
                     .calculateRestaurantDeliveryFeeBasedOnDistance(userId, userCityRestaurant.getRestaurantId()) < deliveryFeeFilter).collect(Collectors.toList());
+        } else {
+            return orderedUserCityRestaurants;
+        }
+    }
+
+
+    private List<RestaurantFilteredDTO> filterByDeliveryTime(Integer deliveryTimeFilter, Integer userId, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
+        if (deliveryTimeFilter != null) {
+            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> distanceCalculatorService
+                    .calculateRestaurantDeliveryTimeBasedOnDistance(userId, userCityRestaurant.getRestaurantId()) < deliveryTimeFilter).collect(Collectors.toList());
+        } else {
+            return orderedUserCityRestaurants;
+        }
+    }
+
+    private List<RestaurantFilteredDTO> filterBySuperRestaurant(Boolean isSuperRestaurant, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
+        if (isSuperRestaurant != null) {
+            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> isSuperRestaurant == userCityRestaurant.getIsSuperRestaurant()).collect(Collectors.toList());
+        } else {
+            return orderedUserCityRestaurants;
+        }
+    }
+
+    private List<RestaurantFilteredDTO> filterByTrackedDelivery(Boolean hasTrackedDelivery, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
+        if (hasTrackedDelivery != null) {
+            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> hasTrackedDelivery == userCityRestaurant.getIsSuperRestaurant()).collect(Collectors.toList());
+        } else {
+            return orderedUserCityRestaurants;
+        }
+    }
+
+    private List<RestaurantFilteredDTO> filterByIFoodDelivery(Boolean isIFoodDelivery, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
+        if (isIFoodDelivery != null) {
+            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> isIFoodDelivery == userCityRestaurant.getIsSuperRestaurant()).collect(Collectors.toList());
         } else {
             return orderedUserCityRestaurants;
         }
