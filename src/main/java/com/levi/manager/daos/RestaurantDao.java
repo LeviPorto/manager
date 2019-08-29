@@ -2,9 +2,11 @@ package com.levi.manager.daos;
 
 import com.levi.manager.dtos.RestaurantFilteredDTO;
 import com.levi.manager.dtos.RestaurantSearchDTO;
+import com.levi.manager.dtos.enuns.SortSearch;
 import com.levi.manager.entities.Restaurant;
 import com.levi.manager.util.HibernateUtil;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -37,20 +39,6 @@ public class RestaurantDao {
 
 
         criteria.add(Restrictions.eq("city", restaurantSearchDTO.getUserCity()));
-
-
-        //TODO Put ordering
-
-        /*if (restaurantSearchDTO.getDeliveryFee() != null) {
-
-        }
-        if (isNotEmpty(restaurantSearchDTO.getCategories())) {
-            restaurantSearchDTO.getCategories().forEach(restaurantCategory -> criteria.add(Restrictions.eq("category", restaurantCategory)));
-        }
-
-        if (restaurantSearchDTO.getPaymentAcceptanceDTO() != null) {
-
-        }*/
 
         return null;
     }

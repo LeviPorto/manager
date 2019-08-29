@@ -11,5 +11,9 @@ public class RestaurantFilteredDTO {
     private Boolean isIFoodDelivery;
     private Boolean isSuperRestaurant;
     private Boolean hasTrackedDelivery;
+    private PaymentAcceptanceDTO PaymentAcceptanceDTO;
+    private Double distanceFromCustomer;
+    private Double deliveryFee;
+    private Double deliveryTime;
 
 }

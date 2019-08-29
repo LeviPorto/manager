@@ -1,5 +1,6 @@
 package com.levi.manager.services;
 
+import com.levi.manager.dtos.RestaurantFilteredDTO;
 import com.levi.manager.entities.Restaurant;
 import com.levi.manager.entities.User;
 import org.springframework.stereotype.Service;
@@ -20,29 +21,38 @@ public class DistanceCalculatorService {
         this.restaurantService = restaurantService;
     }
 
-    public Double calculateRestaurantDefaultDeliveryRadius(Integer userId, Integer restaurantId) {
+    public Double calculateRestaurantDefaultDeliveryRadius(Integer userId, Integer restaurantId, RestaurantFilteredDTO restaurantFilteredDTO) {
         User user = userService.retrieveById(userId).get();
         Restaurant restaurant = restaurantService.retrieveById(restaurantId);
 
-        return calculateDistanceBetweenPoints(user.getLatitude(), user.getLongitude(), restaurant.getLatitude(), restaurant.getLongitude());
+        Double calculatedDistanceFromRestaurantToCustomer = calculateDistanceBetweenPoints(user.getLatitude(), user.getLongitude(), restaurant.getLatitude(), restaurant.getLongitude());
+        restaurantFilteredDTO.setDistanceFromCustomer(calculatedDistanceFromRestaurantToCustomer);
+
+        return calculatedDistanceFromRestaurantToCustomer;
     }
 
-    public Double calculateRestaurantDeliveryFeeBasedOnDistance(Integer userId, Integer restaurantId) {
+    public Double calculateRestaurantDeliveryFeeBasedOnDistance(Integer userId, Integer restaurantId, RestaurantFilteredDTO restaurantFilteredDTO) {
         User user = userService.retrieveById(userId).get();
         Restaurant restaurant = restaurantService.retrieveById(restaurantId);
 
         Double distanceFromUserToRestaurant = calculateDistanceBetweenPoints(user.getLatitude(), user.getLongitude(), restaurant.getLatitude(), restaurant.getLongitude());
+        Double restaurantDeliveryFee = distanceFromUserToRestaurant * restaurant.getDeliveryFee();
 
-        return distanceFromUserToRestaurant * restaurant.getDeliveryFee();
+        restaurantFilteredDTO.setDeliveryFee(restaurantDeliveryFee);
+
+        return restaurantDeliveryFee;
     }
 
-    public Double calculateRestaurantDeliveryTimeBasedOnDistance(Integer userId, Integer restaurantId) {
+    public Double calculateRestaurantDeliveryTimeBasedOnDistance(Integer userId, Integer restaurantId, RestaurantFilteredDTO restaurantFilteredDTO) {
         User user = userService.retrieveById(userId).get();
         Restaurant restaurant = restaurantService.retrieveById(restaurantId);
 
         Double distanceFromUserToRestaurant = calculateDistanceBetweenPoints(user.getLatitude(), user.getLongitude(), restaurant.getLatitude(), restaurant.getLongitude());
+        Double restaurantDeliveryTime = distanceFromUserToRestaurant / NORMAL_SPEED_M_PER_SECONDS;
 
-        return distanceFromUserToRestaurant / NORMAL_SPEED_M_PER_SECONDS;
+        restaurantFilteredDTO.setDeliveryTime(restaurantDeliveryTime);
+
+        return restaurantDeliveryTime;
     }
 
 }
