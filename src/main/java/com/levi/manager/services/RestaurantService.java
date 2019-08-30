@@ -72,27 +72,37 @@ public class RestaurantService {
         userCityRestaurants = filterByCardPaymentAcceptance(restaurantSearchDTO.getPaymentAcceptanceDTO().getCardsDTOs(), userCityRestaurants);
 
         SortSearch sortSearch = restaurantSearchDTO.getSortSearch();
-        List<RestaurantFilteredDTO> orderedRestaurants = new ArrayList<>();
-        if(sortSearch != null) {
-            if (sortSearch.equals(SortSearch.HIGHEST_RATED)) {
-                orderedRestaurants = userCityRestaurants.stream().sorted(Comparator.comparingDouble(comparingRestaurants -> repository.findById(comparingRestaurants.getRestaurantId()).get().getRate()).reversed()).collect(Collectors.toList());
-            }
-            if (sortSearch.equals(SortSearch.SHORTEST_DELIVERY_FEE)) {
-
-            }
-            if (sortSearch.equals(SortSearch.SHORTEST_DELIVERY_TIME)) {
-
-            }
-            if (sortSearch.equals(SortSearch.SHORTEST_PRICE)) {
-
-            }
-            if (sortSearch.equals(SortSearch.SHORTEST_DISTANCE)) {
-
-            }
+        List<RestaurantFilteredDTO> orderedRestaurants = sortFilteredRestaurants(userCityRestaurants, sortSearch, new ArrayList<>());
+        if (orderedRestaurants != null){
+            return orderedRestaurants;
+        } else {
+            return userCityRestaurants;
         }
 
-        return orderedRestaurants;
 
+    }
+
+    private List<RestaurantFilteredDTO> sortFilteredRestaurants(List<RestaurantFilteredDTO> userCityRestaurants, SortSearch sortSearch, List<RestaurantFilteredDTO> orderedRestaurants) {
+        if(sortSearch != null) {
+            if (sortSearch.equals(SortSearch.HIGHEST_RATED)) {
+                //TODO Por ordem decrescente
+                orderedRestaurants = userCityRestaurants.stream().sorted(Comparator.comparingDouble(restaurant -> repository.findById(restaurant.getRestaurantId()).get().getRate())).collect(Collectors.toList());
+            }
+            if (sortSearch.equals(SortSearch.SHORTEST_DELIVERY_FEE)) {
+                orderedRestaurants = userCityRestaurants.stream().sorted(Comparator.comparingDouble(RestaurantFilteredDTO::getDeliveryFee)).collect(Collectors.toList());
+            }
+            if (sortSearch.equals(SortSearch.SHORTEST_DELIVERY_TIME)) {
+                orderedRestaurants = userCityRestaurants.stream().sorted(Comparator.comparingDouble(RestaurantFilteredDTO::getDeliveryTime)).collect(Collectors.toList());
+            }
+            if (sortSearch.equals(SortSearch.SHORTEST_DELIVERY_PRICE)) {
+                orderedRestaurants = userCityRestaurants.stream().sorted(Comparator.comparingDouble(restaurant -> repository.findById(restaurant.getRestaurantId()).get().getCost())).collect(Collectors.toList());
+            }
+            if (sortSearch.equals(SortSearch.SHORTEST_DISTANCE)) {
+                orderedRestaurants = userCityRestaurants.stream().sorted(Comparator.comparingDouble(RestaurantFilteredDTO::getDistanceFromCustomer)).collect(Collectors.toList());
+            }
+            return orderedRestaurants;
+        }
+        return null;
     }
 
     private List<RestaurantFilteredDTO> filterByDefaultRadiusDistance(Integer userId, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
