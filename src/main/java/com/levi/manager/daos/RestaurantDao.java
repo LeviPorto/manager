@@ -40,6 +40,10 @@ public class RestaurantDao {
 
         criteria.add(Restrictions.eq("city", restaurantSearchDTO.getUserCity()));
 
+        if(restaurantSearchDTO.getSearchedName() != null) {
+            criteria.add(Restrictions.like("name", "%" + restaurantSearchDTO.getSearchedName() + "%"));
+        }
+
         return null;
     }
 

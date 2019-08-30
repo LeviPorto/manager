@@ -5,6 +5,7 @@ import com.levi.manager.entities.parents.CompanyContact;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -29,5 +30,8 @@ public class Restaurant extends CompanyContact {
 
     @Column
     private Double rate;
+
+    @OneToMany
+    private List<Food> foods;
 
 }
