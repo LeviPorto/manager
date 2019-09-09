@@ -11,8 +11,12 @@ import java.util.List;
 @Component
 public class RateDispatcher {
 
-    @Autowired(required = false)
-    private List<UpdateRateListener> updateRateListeners;
+    private final List<UpdateRateListener> updateRateListeners;
+
+    @Autowired
+    public RateDispatcher(List<UpdateRateListener> updateRateListeners) {
+        this.updateRateListeners = updateRateListeners;
+    }
 
     public void notifyUpdateRateListeners(final AvaliatedRestaurantDTO avaliatedRestaurantDTO, final Restaurant restaurant) {
         if (updateRateListeners != null) {

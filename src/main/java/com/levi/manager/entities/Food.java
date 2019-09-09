@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Data
+@Entity
 public class Food {
 
     @Id
@@ -30,7 +31,8 @@ public class Food {
     @Column
     private FoodCategory category;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Restaurant.class)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
 }

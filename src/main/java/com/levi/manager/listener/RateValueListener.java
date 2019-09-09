@@ -3,7 +3,9 @@ package com.levi.manager.listener;
 import com.levi.manager.dtos.AvaliatedRestaurantDTO;
 import com.levi.manager.entities.Restaurant;
 import com.levi.manager.services.RestaurantService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RateValueListener implements UpdateRateListener {
 
     private final RestaurantService restaurantService;

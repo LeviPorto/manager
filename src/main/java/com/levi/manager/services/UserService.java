@@ -20,8 +20,4 @@ public class UserService {
         return repository.findById(id);
     }
 
-    public List<User> retrieveByIds(List<Integer> ids) {
-        return repository.findByIdIn(ids);
-    }
-
 }

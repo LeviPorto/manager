@@ -7,6 +7,6 @@ public class AvaliatedRestaurantDTO {
 
     private Integer restaurantId;
     private Double rate;
-    private Boolean isSuperRestaurant;
+    private boolean isSuperRestaurant;
 
 }

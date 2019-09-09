@@ -3,6 +3,7 @@ package com.levi.manager.services;
 import com.levi.manager.dtos.RestaurantFilteredDTO;
 import com.levi.manager.entities.Restaurant;
 import com.levi.manager.entities.User;
+import com.levi.manager.repositories.RestaurantRepository;
 import org.springframework.stereotype.Service;
 
 import static com.levi.manager.util.DistanceCalculatorUtil.calculateDistanceBetweenPoints;
@@ -11,19 +12,19 @@ import static com.levi.manager.util.DistanceCalculatorUtil.calculateDistanceBetw
 public class DistanceCalculatorService {
 
     private final UserService userService;
-    private final RestaurantService restaurantService;
+    private final RestaurantRepository restaurantRepository;
 
     private final static Double NORMAL_SPEED_M_PER_SECONDS = 8.33;
     public final static Double DEFAULT_DELIVERY_RADIUS_IN_METERS = 2000.0;
 
-    public DistanceCalculatorService(final UserService userService, final RestaurantService restaurantService) {
+    public DistanceCalculatorService(final UserService userService, final RestaurantRepository restaurantRepository) {
         this.userService = userService;
-        this.restaurantService = restaurantService;
+        this.restaurantRepository = restaurantRepository;
     }
 
     public Double calculateRestaurantDefaultDeliveryRadius(Integer userId, Integer restaurantId, RestaurantFilteredDTO restaurantFilteredDTO) {
         User user = userService.retrieveById(userId).get();
-        Restaurant restaurant = restaurantService.retrieveById(restaurantId);
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).get();
 
         Double calculatedDistanceFromRestaurantToCustomer = calculateDistanceBetweenPoints(user.getLatitude(), user.getLongitude(), restaurant.getLatitude(), restaurant.getLongitude());
         restaurantFilteredDTO.setDistanceFromCustomer(calculatedDistanceFromRestaurantToCustomer);
@@ -33,7 +34,7 @@ public class DistanceCalculatorService {
 
     public Double calculateRestaurantDeliveryFeeBasedOnDistance(Integer userId, Integer restaurantId, RestaurantFilteredDTO restaurantFilteredDTO) {
         User user = userService.retrieveById(userId).get();
-        Restaurant restaurant = restaurantService.retrieveById(restaurantId);
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).get();
 
         Double distanceFromUserToRestaurant = calculateDistanceBetweenPoints(user.getLatitude(), user.getLongitude(), restaurant.getLatitude(), restaurant.getLongitude());
         Double restaurantDeliveryFee = distanceFromUserToRestaurant * restaurant.getDeliveryFee();
@@ -45,7 +46,7 @@ public class DistanceCalculatorService {
 
     public Double calculateRestaurantDeliveryTimeBasedOnDistance(Integer userId, Integer restaurantId, RestaurantFilteredDTO restaurantFilteredDTO) {
         User user = userService.retrieveById(userId).get();
-        Restaurant restaurant = restaurantService.retrieveById(restaurantId);
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).get();
 
         Double distanceFromUserToRestaurant = calculateDistanceBetweenPoints(user.getLatitude(), user.getLongitude(), restaurant.getLatitude(), restaurant.getLongitude());
         Double restaurantDeliveryTime = distanceFromUserToRestaurant / NORMAL_SPEED_M_PER_SECONDS;
