@@ -34,8 +34,7 @@ public class RestaurantDao {
         criteria.setProjection(Projections.property("cost"));
         criteria.setProjection(Projections.property("latitude"));
         criteria.setProjection(Projections.property("longitude"));
-        criteria.setProjection(Projections.property("rateCount"));
-        criteria.setProjection(Projections.property("rateSum"));
+        criteria.setProjection(Projections.property("rating"));
 
 
         criteria.add(Restrictions.eq("city", restaurantSearchDTO.getUserCity()));

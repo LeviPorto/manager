@@ -3,8 +3,8 @@ package com.levi.manager.listener;
 import com.levi.manager.dtos.AvaliatedRestaurantDTO;
 import com.levi.manager.entities.Restaurant;
 
-public interface UpdateRateListener {
+public interface UpdateRatingListener {
 
-    void rateWasUpdated(AvaliatedRestaurantDTO avaliatedRestaurantDTO, Restaurant restaurant);
+    void ratingWasUpdated(AvaliatedRestaurantDTO avaliatedRestaurantDTO, Restaurant restaurant);
 
 }

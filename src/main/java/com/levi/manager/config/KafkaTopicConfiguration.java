@@ -25,6 +25,6 @@ public class KafkaTopicConfiguration {
 
     @Bean
     public NewTopic topic() {
-        return new NewTopic("RATE_EVENT_SOURCING", 1, (short) 1);
+        return new NewTopic("RATING_EVENT_SOURCING", 1, (short) 1);
     }
 }

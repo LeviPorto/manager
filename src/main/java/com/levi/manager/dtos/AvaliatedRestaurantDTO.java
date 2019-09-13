@@ -6,7 +6,7 @@ import lombok.Data;
 public class AvaliatedRestaurantDTO {
 
     private Integer restaurantId;
-    private Double rate;
+    private Double rating;
     private boolean isSuperRestaurant;
 
 }

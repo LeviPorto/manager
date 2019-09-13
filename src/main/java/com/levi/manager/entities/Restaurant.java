@@ -29,7 +29,7 @@ public class Restaurant extends CompanyContact {
     private Double deliveryFee;
 
     @Column
-    private Double rate;
+    private Double rating;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
     private List<Food> foods;

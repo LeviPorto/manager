@@ -86,7 +86,7 @@ public class RestaurantService {
         if(sortSearch != null) {
             if (sortSearch.equals(SortSearch.HIGHEST_RATED)) {
                 //TODO Por ordem decrescente
-                orderedRestaurants = userCityRestaurants.stream().sorted(Comparator.comparingDouble(restaurant -> repository.findById(restaurant.getRestaurantId()).get().getRate())).collect(Collectors.toList());
+                orderedRestaurants = userCityRestaurants.stream().sorted(Comparator.comparingDouble(restaurant -> repository.findById(restaurant.getRestaurantId()).get().getRating())).collect(Collectors.toList());
             }
             if (sortSearch.equals(SortSearch.SHORTEST_DELIVERY_FEE)) {
                 orderedRestaurants = userCityRestaurants.stream().sorted(Comparator.comparingDouble(RestaurantFilteredDTO::getDeliveryFee)).collect(Collectors.toList());

@@ -6,17 +6,17 @@ import com.levi.manager.services.RestaurantService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RateValueListener implements UpdateRateListener {
+public class RatingValueListener implements UpdateRatingListener {
 
     private final RestaurantService restaurantService;
 
-    public RateValueListener(final RestaurantService restaurantService) {
+    public RatingValueListener(final RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
     }
 
     @Override
-    public void rateWasUpdated(AvaliatedRestaurantDTO avaliatedRestaurantDTO, Restaurant restaurant) {
-        restaurant.setRate(avaliatedRestaurantDTO.getRate());
+    public void ratingWasUpdated(AvaliatedRestaurantDTO avaliatedRestaurantDTO, Restaurant restaurant) {
+        restaurant.setRating(avaliatedRestaurantDTO.getRating());
         restaurantService.create(restaurant);
     }
 

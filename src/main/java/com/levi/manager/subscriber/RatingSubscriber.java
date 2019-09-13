@@ -1,6 +1,6 @@
 package com.levi.manager.subscriber;
 
-import com.levi.manager.dispatcher.RateDispatcher;
+import com.levi.manager.dispatcher.RatingDispatcher;
 import com.levi.manager.dtos.AvaliatedRestaurantDTO;
 import com.levi.manager.entities.Restaurant;
 import com.levi.manager.services.RestaurantService;
@@ -11,20 +11,20 @@ import org.springframework.stereotype.Component;
 //TODO nome pacotes plural
 
 @Component
-public class RateSubscriber {
+public class RatingSubscriber {
 
-    private final RateDispatcher rateDispatcher;
+    private final RatingDispatcher ratingDispatcher;
     private final RestaurantService restaurantService;
 
-    public RateSubscriber(final RateDispatcher rateDispatcher, final RestaurantService restaurantService) {
-        this.rateDispatcher = rateDispatcher;
+    public RatingSubscriber(final RatingDispatcher ratingDispatcher, final RestaurantService restaurantService) {
+        this.ratingDispatcher = ratingDispatcher;
         this.restaurantService = restaurantService;
     }
 
-    @KafkaListener(topics = "RATE_EVENT_SOURCING", groupId = "1234", containerFactory = "kafkaListenerContainerFactory")
-    public void processRateEventSourcing(@Payload AvaliatedRestaurantDTO avaliatedRestaurantDTO) {
+    @KafkaListener(topics = "RATING_EVENT_SOURCING", groupId = "1234", containerFactory = "kafkaListenerContainerFactory")
+    public void processRatingEventSourcing(@Payload AvaliatedRestaurantDTO avaliatedRestaurantDTO) {
         Restaurant restaurant = restaurantService.retrieveById(avaliatedRestaurantDTO.getRestaurantId());
-        rateDispatcher.notifyUpdateRateListeners(avaliatedRestaurantDTO, restaurant);
+        ratingDispatcher.notifyUpdateRatingListeners(avaliatedRestaurantDTO, restaurant);
     }
 
 }
