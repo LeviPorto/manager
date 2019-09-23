@@ -1,8 +1,8 @@
 package com.levi.manager.listener;
 
-import com.levi.manager.dtos.AvaliatedRestaurantDTO;
-import com.levi.manager.entities.Restaurant;
-import com.levi.manager.services.RestaurantService;
+import com.levi.manager.dto.AvaliatedRestaurantDTO;
+import com.levi.manager.entity.Restaurant;
+import com.levi.manager.service.RestaurantService;
 import org.springframework.stereotype.Component;
 
 @Component

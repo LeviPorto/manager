@@ -1,14 +1,12 @@
 package com.levi.manager.subscriber;
 
 import com.levi.manager.dispatcher.RatingDispatcher;
-import com.levi.manager.dtos.AvaliatedRestaurantDTO;
-import com.levi.manager.entities.Restaurant;
-import com.levi.manager.services.RestaurantService;
+import com.levi.manager.dto.AvaliatedRestaurantDTO;
+import com.levi.manager.entity.Restaurant;
+import com.levi.manager.service.RestaurantService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-
-//TODO nome pacotes plural
 
 @Component
 public class RatingSubscriber {

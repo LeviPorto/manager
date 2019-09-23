@@ -1,7 +1,7 @@
 package com.levi.manager.dispatcher;
 
-import com.levi.manager.dtos.AvaliatedRestaurantDTO;
-import com.levi.manager.entities.Restaurant;
+import com.levi.manager.dto.AvaliatedRestaurantDTO;
+import com.levi.manager.entity.Restaurant;
 import com.levi.manager.listener.UpdateRatingListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
