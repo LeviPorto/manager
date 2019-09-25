@@ -8,6 +8,6 @@ public class CardDTO {
 
     private CardType cardType;
     private String flag;
-    private Boolean enabled;
+    private boolean enabled;
 
 }

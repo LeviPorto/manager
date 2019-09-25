@@ -34,8 +34,8 @@ public class RestaurantController {
         service.remove(id);
     }
 
-    @GetMapping
-    public List<RestaurantFilteredDTO> getFilteredRestaurants(@RequestParam RestaurantSearchDTO restaurantSearchDTO) {
+    @PostMapping("/search")
+    public List<RestaurantFilteredDTO> search(@RequestBody RestaurantSearchDTO restaurantSearchDTO) {
         return service.retrieveFilteredRestaurants(restaurantSearchDTO);
     }
 

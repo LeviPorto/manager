@@ -2,14 +2,21 @@ package com.levi.manager.entity;
 
 import com.levi.manager.entity.enumeration.RestaurantCategory;
 import com.levi.manager.entity.parent.CompanyContact;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
+
+//TODO ver se pondo getters e setters ajuda o hibernate
 
 @Data
 @Entity
-public class Restaurant extends CompanyContact {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Restaurant extends CompanyContact implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +27,13 @@ public class Restaurant extends CompanyContact {
     private RestaurantCategory category;
 
     @Column
-    private Boolean isSuperRestaurant;
+    private boolean isSuperRestaurant;
+
+    @Column
+    private boolean isIFoodDelivery;
+
+    @Column
+    private boolean hasTrackedDelivery;
 
     @Column
     private Double cost;
@@ -39,5 +52,20 @@ public class Restaurant extends CompanyContact {
 
     @OneToMany(mappedBy = "restaurant")
     private List<Combo> combos;
+
+    public Restaurant(Integer id, String name, RestaurantCategory category, Double cost, Double latitude, Double longitude, Double rating,
+                      boolean isSuperRestaurant, boolean isIFoodDelivery, boolean hasTrackedDelivery) {
+        this.id = id;
+        this.category = category;
+        this.cost = cost;
+        this.rating = rating;
+        setName(name);
+        setLatitude(latitude);
+        setLongitude(longitude);
+        this.isSuperRestaurant = isSuperRestaurant;
+        this.isIFoodDelivery = isIFoodDelivery;
+        this.hasTrackedDelivery = hasTrackedDelivery;
+    }
+
 
 }

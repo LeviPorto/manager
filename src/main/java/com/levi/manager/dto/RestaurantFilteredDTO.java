@@ -4,18 +4,20 @@ import com.levi.manager.entity.Combo;
 import com.levi.manager.entity.Food;
 import com.levi.manager.entity.Promotion;
 import com.levi.manager.entity.enumeration.RestaurantCategory;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 public class RestaurantFilteredDTO {
 
     public RestaurantCategory restaurantCategory;
     public Integer restaurantId;
-    private Boolean isIFoodDelivery;
-    private Boolean isSuperRestaurant;
-    private Boolean hasTrackedDelivery;
+    private boolean isIFoodDelivery;
+    private boolean isSuperRestaurant;
+    private boolean hasTrackedDelivery;
     private PaymentAcceptanceDTO PaymentAcceptanceDTO;
     private Double distanceFromCustomer;
     private Double deliveryFee;

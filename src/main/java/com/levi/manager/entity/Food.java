@@ -4,10 +4,11 @@ import com.levi.manager.entity.parent.Eating;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
-public class Food extends Eating {
+public class Food extends Eating implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

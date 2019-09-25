@@ -7,9 +7,9 @@ import java.util.List;
 @Data
 public class PaymentAcceptanceDTO {
 
-    private Boolean cash;
-    private Boolean paycheck;
-    private Boolean onlineTicket;
+    private boolean cash;
+    private boolean paycheck;
+    private boolean onlineTicket;
     private List<CardDTO> cardsDTOs;
 
 }

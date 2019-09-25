@@ -7,9 +7,7 @@ import com.levi.manager.dto.RestaurantSearchDTO;
 import com.levi.manager.dto.enumeration.SortSearch;
 import com.levi.manager.entity.Restaurant;
 import com.levi.manager.entity.enumeration.RestaurantCategory;
-import com.levi.manager.filter.RestaurantFilter;
 import com.levi.manager.repository.RestaurantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -30,8 +28,6 @@ import static org.hibernate.internal.util.collections.CollectionHelper.isNotEmpt
 
 //TODO Limpar o envio de entidades desnecessários no RestaurantFilteredDTO
 
-//TODO mudar nome dos pacotes para singular desse projeto e do deliverer
-
 @Service
 public class RestaurantService {
 
@@ -39,15 +35,12 @@ public class RestaurantService {
     private final RestaurantRepository repository;
     private final DistanceCalculatorService distanceCalculatorService;
 
-    private final List<RestaurantFilter> restaurantFilters;
-
 
     public RestaurantService(final RestaurantDao dao, final RestaurantRepository repository, final UserService userService,
-                             final DistanceCalculatorService distanceCalculatorService, List<RestaurantFilter> restaurantFilters) {
+                             final DistanceCalculatorService distanceCalculatorService) {
         this.dao = dao;
         this.repository = repository;
         this.distanceCalculatorService = distanceCalculatorService;
-        this.restaurantFilters = restaurantFilters;
     }
 
     public Restaurant create(Restaurant restaurant) {
@@ -59,8 +52,8 @@ public class RestaurantService {
         return repository.save(restaurant);
     }
 
-    public void remove(Integer restaurantId) {
-        repository.deleteById(restaurantId);
+    public void remove(Integer id) {
+        repository.deleteById(id);
     }
 
     public Restaurant retrieveById(Integer id) {
@@ -69,24 +62,21 @@ public class RestaurantService {
 
     public List<RestaurantFilteredDTO> retrieveFilteredRestaurants(RestaurantSearchDTO restaurantSearchDTO) {
 
+
         List<RestaurantFilteredDTO> userCityRestaurants = dao.findUserCityRestaurants(restaurantSearchDTO);
 
-        for(RestaurantFilter restaurantFilter : restaurantFilters) {
-            userCityRestaurants = restaurantFilter.filterRestaurant(restaurantSearchDTO, userCityRestaurants);
-        }
-
-        //userCityRestaurants = filterByDefaultRadiusDistance(restaurantSearchDTO.getUserId(), userCityRestaurants);
+        userCityRestaurants = filterByDefaultRadiusDistance(restaurantSearchDTO.getUserId(), userCityRestaurants);
 
         userCityRestaurants = filterByCategory(restaurantSearchDTO.getCategories(), userCityRestaurants);
         userCityRestaurants = filterByDeliveryFee(restaurantSearchDTO.getDeliveryFee(), restaurantSearchDTO.getUserId(), userCityRestaurants);
         userCityRestaurants = filterByDeliveryTime(restaurantSearchDTO.getDeliveryTime(), restaurantSearchDTO.getUserId(), userCityRestaurants);
-        userCityRestaurants = filterBySuperRestaurant(restaurantSearchDTO.getIsSuperRestaurant(), userCityRestaurants);
-        userCityRestaurants = filterByTrackedDelivery(restaurantSearchDTO.getHasTrackedDelivery(), userCityRestaurants);
-        userCityRestaurants = filterByIFoodDelivery(restaurantSearchDTO.getIsIFoodDelivery(), userCityRestaurants);
+        userCityRestaurants = filterBySuperRestaurant(restaurantSearchDTO.isSuperRestaurant(), userCityRestaurants);
+        userCityRestaurants = filterByTrackedDelivery(restaurantSearchDTO.isHasTrackedDelivery(), userCityRestaurants);
+        userCityRestaurants = filterByIFoodDelivery(restaurantSearchDTO.isIFoodDelivery(), userCityRestaurants);
 
-        userCityRestaurants = filterByCashPaymentAcceptance(restaurantSearchDTO.getPaymentAcceptanceDTO().getCash(), userCityRestaurants);
-        userCityRestaurants = filterByPaycheckPaymentAcceptance(restaurantSearchDTO.getPaymentAcceptanceDTO().getPaycheck(), userCityRestaurants);
-        userCityRestaurants = filterByOnlineTicketPaymentAcceptance(restaurantSearchDTO.getIsIFoodDelivery(), userCityRestaurants);
+        userCityRestaurants = filterByCashPaymentAcceptance(restaurantSearchDTO.getPaymentAcceptanceDTO().isCash(), userCityRestaurants);
+        userCityRestaurants = filterByPaycheckPaymentAcceptance(restaurantSearchDTO.getPaymentAcceptanceDTO().isPaycheck(), userCityRestaurants);
+        userCityRestaurants = filterByOnlineTicketPaymentAcceptance(restaurantSearchDTO.isIFoodDelivery(), userCityRestaurants);
 
         userCityRestaurants = filterByCardPaymentAcceptance(restaurantSearchDTO.getPaymentAcceptanceDTO().getCardsDTOs(), userCityRestaurants);
 
@@ -160,7 +150,7 @@ public class RestaurantService {
 
     private List<RestaurantFilteredDTO> filterBySuperRestaurant(Boolean isSuperRestaurant, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
         if (isSuperRestaurant != null) {
-            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> isSuperRestaurant == userCityRestaurant.getIsSuperRestaurant()).collect(Collectors.toList());
+            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> isSuperRestaurant == userCityRestaurant.isSuperRestaurant()).collect(Collectors.toList());
         } else {
             return orderedUserCityRestaurants;
         }
@@ -168,7 +158,7 @@ public class RestaurantService {
 
     private List<RestaurantFilteredDTO> filterByTrackedDelivery(Boolean hasTrackedDelivery, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
         if (hasTrackedDelivery != null) {
-            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> hasTrackedDelivery == userCityRestaurant.getHasTrackedDelivery()).collect(Collectors.toList());
+            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> hasTrackedDelivery == userCityRestaurant.isHasTrackedDelivery()).collect(Collectors.toList());
         } else {
             return orderedUserCityRestaurants;
         }
@@ -176,7 +166,7 @@ public class RestaurantService {
 
     private List<RestaurantFilteredDTO> filterByIFoodDelivery(Boolean isIFoodDelivery, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
         if (isIFoodDelivery != null) {
-            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> isIFoodDelivery == userCityRestaurant.getIsIFoodDelivery()).collect(Collectors.toList());
+            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> isIFoodDelivery == userCityRestaurant.isIFoodDelivery()).collect(Collectors.toList());
         } else {
             return orderedUserCityRestaurants;
         }
@@ -184,7 +174,7 @@ public class RestaurantService {
 
     private List<RestaurantFilteredDTO> filterByCashPaymentAcceptance(Boolean isCashPaymentAcceptance, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
         if (isCashPaymentAcceptance != null) {
-            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> isCashPaymentAcceptance == userCityRestaurant.getPaymentAcceptanceDTO().getCash()).collect(Collectors.toList());
+            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> isCashPaymentAcceptance == userCityRestaurant.getPaymentAcceptanceDTO().isCash()).collect(Collectors.toList());
         } else {
             return orderedUserCityRestaurants;
         }
@@ -192,7 +182,7 @@ public class RestaurantService {
 
     private List<RestaurantFilteredDTO> filterByPaycheckPaymentAcceptance(Boolean isPaycheckPaymentAcceptance, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
         if (isPaycheckPaymentAcceptance != null) {
-            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> isPaycheckPaymentAcceptance == userCityRestaurant.getPaymentAcceptanceDTO().getPaycheck()).collect(Collectors.toList());
+            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> isPaycheckPaymentAcceptance == userCityRestaurant.getPaymentAcceptanceDTO().isPaycheck()).collect(Collectors.toList());
         } else {
             return orderedUserCityRestaurants;
         }
@@ -200,7 +190,7 @@ public class RestaurantService {
 
     private List<RestaurantFilteredDTO> filterByOnlineTicketPaymentAcceptance(Boolean isOnlineTicket, List<RestaurantFilteredDTO> orderedUserCityRestaurants) {
         if (isOnlineTicket != null) {
-            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> isOnlineTicket == userCityRestaurant.getPaymentAcceptanceDTO().getOnlineTicket()).collect(Collectors.toList());
+            return orderedUserCityRestaurants.stream().filter(userCityRestaurant -> isOnlineTicket == userCityRestaurant.getPaymentAcceptanceDTO().isOnlineTicket()).collect(Collectors.toList());
         } else {
             return orderedUserCityRestaurants;
         }

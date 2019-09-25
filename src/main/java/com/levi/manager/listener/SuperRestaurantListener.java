@@ -18,7 +18,7 @@ public class SuperRestaurantListener implements UpdateRatingListener {
 
     @Override
     public void ratingWasUpdated(AvaliatedRestaurantDTO avaliatedRestaurantDTO, Restaurant restaurant) {
-        restaurant.setIsSuperRestaurant(avaliatedRestaurantDTO.isSuperRestaurant());
+        restaurant.setSuperRestaurant(avaliatedRestaurantDTO.isSuperRestaurant());
         restaurantService.create(restaurant);
     }
 

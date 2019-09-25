@@ -4,11 +4,12 @@ import com.levi.manager.entity.parent.Eating;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Entity
-public class Combo extends Eating {
+public class Combo extends Eating implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,5 +17,9 @@ public class Combo extends Eating {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "combo")
     private List<ComboItem> items;
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Restaurant.class)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
 
 }
