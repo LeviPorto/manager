@@ -1,16 +1,10 @@
 package com.levi.manager.dao;
 
-import com.levi.manager.dto.RestaurantFilteredDTO;
+import com.levi.manager.dto.FilteredRestaurantDTO;
 import com.levi.manager.dto.RestaurantSearchDTO;
 import com.levi.manager.entity.Restaurant;
-import com.levi.manager.util.HibernateUtil;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +43,7 @@ public class RestaurantDao {
         return session.getCriteriaBuilder();
     }
 
-    public List<RestaurantFilteredDTO> findUserCityRestaurants(RestaurantSearchDTO restaurantSearchDTO) {
+    public List<FilteredRestaurantDTO> findUserCityRestaurants(RestaurantSearchDTO restaurantSearchDTO) {
         CriteriaQuery<Restaurant> criteria = getCriteriaQuery();
         Root<Restaurant> root = criteria.from(Restaurant.class);
 
@@ -63,7 +57,7 @@ public class RestaurantDao {
         Query<Restaurant> query = session.createQuery(criteria);
         List<Restaurant> results = query.getResultList();
 
-        return results.stream().map(restaurant -> new RestaurantFilteredDTO(restaurant.getCategory(),
+        return results.stream().map(restaurant -> new FilteredRestaurantDTO(restaurant.getCategory(),
                 restaurant.getId(), restaurant.isIFoodDelivery(), restaurant.isSuperRestaurant(),
                 restaurant.isHasTrackedDelivery(), null, null,
                 null, null, null, null, null)).collect(Collectors.toList());

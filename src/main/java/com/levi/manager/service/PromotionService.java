@@ -1,6 +1,6 @@
 package com.levi.manager.service;
 
-import com.levi.manager.dto.RestaurantFilteredDTO;
+import com.levi.manager.dto.FilteredRestaurantDTO;
 import com.levi.manager.dto.RestaurantSearchDTO;
 import com.levi.manager.entity.Promotion;
 import com.levi.manager.repository.PromotionRepository;
@@ -34,7 +34,7 @@ public class PromotionService {
     }
 
     public List<Promotion> retrieveFilteredPromotions(String searchedName, String userCity) {
-        List<RestaurantFilteredDTO> filteredRestaurants = restaurantService.retrieveFilteredRestaurants(RestaurantSearchDTO.builder().userCity(userCity).build());
+        List<FilteredRestaurantDTO> filteredRestaurants = restaurantService.retrieveFilteredRestaurants(RestaurantSearchDTO.builder().userCity(userCity).build());
         List<Promotion> filteredPromotions = new ArrayList<>();
 
         if(searchedName != null) {

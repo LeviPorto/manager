@@ -1,6 +1,6 @@
 package com.levi.manager.controller;
 
-import com.levi.manager.dto.RestaurantFilteredDTO;
+import com.levi.manager.dto.FilteredRestaurantDTO;
 import com.levi.manager.dto.RestaurantSearchDTO;
 import com.levi.manager.entity.Restaurant;
 import com.levi.manager.service.RestaurantService;
@@ -35,7 +35,7 @@ public class RestaurantController {
     }
 
     @PostMapping("/search")
-    public List<RestaurantFilteredDTO> search(@RequestBody RestaurantSearchDTO restaurantSearchDTO) {
+    public List<FilteredRestaurantDTO> search(@RequestBody RestaurantSearchDTO restaurantSearchDTO) {
         return service.retrieveFilteredRestaurants(restaurantSearchDTO);
     }
 

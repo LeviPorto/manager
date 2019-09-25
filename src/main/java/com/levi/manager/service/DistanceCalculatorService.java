@@ -1,6 +1,6 @@
 package com.levi.manager.service;
 
-import com.levi.manager.dto.RestaurantFilteredDTO;
+import com.levi.manager.dto.FilteredRestaurantDTO;
 import com.levi.manager.entity.Restaurant;
 import com.levi.manager.entity.User;
 import com.levi.manager.repository.RestaurantRepository;
@@ -22,36 +22,36 @@ public class DistanceCalculatorService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public Double calculateRestaurantDefaultDeliveryRadius(Integer userId, Integer restaurantId, RestaurantFilteredDTO restaurantFilteredDTO) {
+    public Double calculateRestaurantDefaultDeliveryRadius(Integer userId, Integer restaurantId, FilteredRestaurantDTO filteredRestaurantDTO) {
         User user = userService.retrieveById(userId).get();
         Restaurant restaurant = restaurantRepository.findById(restaurantId).get();
 
         Double calculatedDistanceFromRestaurantToCustomer = calculateDistanceBetweenPoints(user.getLatitude(), user.getLongitude(), restaurant.getLatitude(), restaurant.getLongitude());
-        restaurantFilteredDTO.setDistanceFromCustomer(calculatedDistanceFromRestaurantToCustomer);
+        filteredRestaurantDTO.setDistanceFromCustomer(calculatedDistanceFromRestaurantToCustomer);
 
         return calculatedDistanceFromRestaurantToCustomer;
     }
 
-    public Double calculateRestaurantDeliveryFeeBasedOnDistance(Integer userId, Integer restaurantId, RestaurantFilteredDTO restaurantFilteredDTO) {
+    public Double calculateRestaurantDeliveryFeeBasedOnDistance(Integer userId, Integer restaurantId, FilteredRestaurantDTO filteredRestaurantDTO) {
         User user = userService.retrieveById(userId).get();
         Restaurant restaurant = restaurantRepository.findById(restaurantId).get();
 
         Double distanceFromUserToRestaurant = calculateDistanceBetweenPoints(user.getLatitude(), user.getLongitude(), restaurant.getLatitude(), restaurant.getLongitude());
         Double restaurantDeliveryFee = distanceFromUserToRestaurant * restaurant.getDeliveryFee();
 
-        restaurantFilteredDTO.setDeliveryFee(restaurantDeliveryFee);
+        filteredRestaurantDTO.setDeliveryFee(restaurantDeliveryFee);
 
         return restaurantDeliveryFee;
     }
 
-    public Double calculateRestaurantDeliveryTimeBasedOnDistance(Integer userId, Integer restaurantId, RestaurantFilteredDTO restaurantFilteredDTO) {
+    public Double calculateRestaurantDeliveryTimeBasedOnDistance(Integer userId, Integer restaurantId, FilteredRestaurantDTO filteredRestaurantDTO) {
         User user = userService.retrieveById(userId).get();
         Restaurant restaurant = restaurantRepository.findById(restaurantId).get();
 
         Double distanceFromUserToRestaurant = calculateDistanceBetweenPoints(user.getLatitude(), user.getLongitude(), restaurant.getLatitude(), restaurant.getLongitude());
         Double restaurantDeliveryTime = distanceFromUserToRestaurant / NORMAL_SPEED_M_PER_SECONDS;
 
-        restaurantFilteredDTO.setDeliveryTime(restaurantDeliveryTime);
+        filteredRestaurantDTO.setDeliveryTime(restaurantDeliveryTime);
 
         return restaurantDeliveryTime;
     }

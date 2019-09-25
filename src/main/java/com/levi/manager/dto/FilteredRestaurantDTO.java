@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class RestaurantFilteredDTO {
+public class FilteredRestaurantDTO {
 
     public RestaurantCategory restaurantCategory;
     public Integer restaurantId;

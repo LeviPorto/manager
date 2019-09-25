@@ -1,6 +1,6 @@
 package com.levi.manager.service;
 
-import com.levi.manager.dto.RestaurantFilteredDTO;
+import com.levi.manager.dto.FilteredRestaurantDTO;
 import com.levi.manager.dto.RestaurantSearchDTO;
 import com.levi.manager.entity.Combo;
 import com.levi.manager.repository.ComboRepository;
@@ -34,7 +34,7 @@ public class ComboService {
     }
 
     public List<Combo> retrieveFilteredCombos(String searchedName, String userCity) {
-        List<RestaurantFilteredDTO> filteredRestaurants = restaurantService.retrieveFilteredRestaurants(RestaurantSearchDTO.builder().userCity(userCity).build());
+        List<FilteredRestaurantDTO> filteredRestaurants = restaurantService.retrieveFilteredRestaurants(RestaurantSearchDTO.builder().userCity(userCity).build());
         List<Combo> filteredCombos = new ArrayList<>();
 
         if(searchedName != null) {
