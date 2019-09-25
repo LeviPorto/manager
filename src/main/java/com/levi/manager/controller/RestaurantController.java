@@ -39,4 +39,9 @@ public class RestaurantController {
         return service.retrieveFilteredRestaurants(restaurantSearchDTO);
     }
 
+    @GetMapping("/{id}")
+    public Restaurant find(@PathVariable Integer id) {
+        return service.retrieveById(id);
+    }
+
 }

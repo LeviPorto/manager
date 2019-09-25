@@ -29,7 +29,7 @@ public class UserService {
         repository.deleteById(userId);
     }
 
-    public Optional<User> retrieveById(Integer id) {
+    Optional<User> retrieveById(Integer id) {
         return repository.findById(id);
     }
 

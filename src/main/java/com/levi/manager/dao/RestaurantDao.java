@@ -47,7 +47,8 @@ public class RestaurantDao {
         CriteriaQuery<Restaurant> criteria = getCriteriaQuery();
         Root<Restaurant> root = criteria.from(Restaurant.class);
 
-        criteria.multiselect(root.get("id"), root.get("name"), root.get("category"), root.get("cost"), root.get("latitude"), root.get("longitude"), root.get("rating"), root.get("isIFoodDelivery"), root.get("isSuperRestaurant"), root.get("hasTrackedDelivery"))
+        criteria.multiselect(root.get("id"), root.get("name"), root.get("category"), root.get("cost"), root.get("latitude"), root.get("longitude"),
+                root.get("rating"), root.get("isIFoodDelivery"), root.get("isSuperRestaurant"), root.get("hasTrackedDelivery"))
                 .where(getCriteriaBuilder().equal(root.get("city"), restaurantSearchDTO.getUserCity()));
 
         if(restaurantSearchDTO.getSearchedName() != null) {

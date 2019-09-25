@@ -4,14 +4,14 @@ import com.levi.manager.entity.enumeration.RestaurantCategory;
 import com.levi.manager.entity.parent.CompanyContact;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-//TODO ver se pondo getters e setters ajuda o hibernate
-
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @AllArgsConstructor
@@ -59,12 +59,12 @@ public class Restaurant extends CompanyContact implements Serializable {
         this.category = category;
         this.cost = cost;
         this.rating = rating;
-        setName(name);
-        setLatitude(latitude);
-        setLongitude(longitude);
         this.isSuperRestaurant = isSuperRestaurant;
         this.isIFoodDelivery = isIFoodDelivery;
         this.hasTrackedDelivery = hasTrackedDelivery;
+        setName(name);
+        setLatitude(latitude);
+        setLongitude(longitude);
     }
 
 
