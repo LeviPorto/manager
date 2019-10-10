@@ -1,8 +1,5 @@
 package com.levi.manager.crud;
 
-import com.levi.manager.crud.IdentifiedEntity;
-import com.levi.manager.crud.AbstractCrudRepository;
-
 import java.util.List;
 
 public abstract class AbstractCrudService<T extends IdentifiedEntity> {

@@ -26,7 +26,7 @@ public class Promotion extends GenericFood implements Serializable, IdentifiedEn
 
     @OneToMany(mappedBy = "promotion")
     @JsonBackReference("eatingTags")
-    private List<EatingTag> eatingTags;
+    private List<GenericFoodTag> genericFoodTags;
 
     @ManyToOne(targetEntity = Restaurant.class)
     private Restaurant restaurant;

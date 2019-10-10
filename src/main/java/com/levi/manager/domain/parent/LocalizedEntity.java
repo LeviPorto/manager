@@ -7,7 +7,7 @@ import javax.persistence.MappedSuperclass;
 
 @Data
 @MappedSuperclass
-abstract class LocalizedEntity {
+public abstract class LocalizedEntity {
 
     @Column
     private Double latitude;

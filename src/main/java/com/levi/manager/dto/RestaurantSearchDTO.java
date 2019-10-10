@@ -20,6 +20,7 @@ public class RestaurantSearchDTO {
     private List<RestaurantCategory> categories;
     private boolean isSuperRestaurant;
     private boolean hasTrackedDelivery;
+    private boolean isIFoodDelivery;
     private SortSearch sortSearch;
     private Integer userId;
     private String userCity;

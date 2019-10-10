@@ -9,14 +9,11 @@ import com.levi.manager.dto.enumeration.SortSearch;
 import com.levi.manager.domain.Restaurant;
 import com.levi.manager.filter.RestaurantFilter;
 import com.levi.manager.repository.RestaurantRepository;
+import com.levi.manager.service.nontransactional.DistanceCalculatorService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-//TODO Extrair o loop tendo o distanceCalculator dentro
-
-//TODO Ver a ideia de tornar mais funcional, utilizando construtores (ideia eh tirar os setters e refatorar todo código baseado nisso, criando construtores para cada caso)
 
 @Service
 public class RestaurantService extends AbstractCrudService<Restaurant> {
@@ -45,8 +42,6 @@ public class RestaurantService extends AbstractCrudService<Restaurant> {
         fillFilteredRestaurantsWithDeliveryTime(user, userCityRestaurants);
         fillFilteredRestaurantsWithDeliveryDistance(user, userCityRestaurants);
 
-        //TODO Fazer Fill do payment acceptance (usando feign para pegar esses dados em batch)
-
         for (RestaurantFilter restaurantFilter : restaurantFilters) {
             userCityRestaurants = restaurantFilter.filterRestaurant(restaurantSearchDTO, userCityRestaurants);
         }
@@ -61,8 +56,7 @@ public class RestaurantService extends AbstractCrudService<Restaurant> {
     private List<FilteredRestaurantDTO> sortFilteredRestaurants(List<FilteredRestaurantDTO> userCityRestaurants, SortSearch sortSearch) {
         switch (sortSearch) {
             case HIGHEST_RATED:
-                //TODO por em ordem decrescente
-                return userCityRestaurants.stream().sorted(Comparator.comparingDouble(restaurant -> repository.findById(restaurant.getRestaurantId()).get().getRating())).collect(Collectors.toList());
+                return userCityRestaurants.stream().sorted(Comparator.comparingDouble(restaurant -> ((FilteredRestaurantDTO) restaurant).getRating()).reversed()).collect(Collectors.toList());
             case SHORTEST_DELIVERY_FEE:
                 return userCityRestaurants.stream().sorted(Comparator.comparingDouble(FilteredRestaurantDTO::getDeliveryFee)).collect(Collectors.toList());
             case SHORTEST_DISTANCE:
@@ -70,7 +64,7 @@ public class RestaurantService extends AbstractCrudService<Restaurant> {
             case SHORTEST_DELIVERY_TIME:
                 return userCityRestaurants.stream().sorted(Comparator.comparingDouble(FilteredRestaurantDTO::getDeliveryTime)).collect(Collectors.toList());
             case SHORTEST_DELIVERY_PRICE:
-                return userCityRestaurants.stream().sorted(Comparator.comparingDouble(restaurant -> repository.findById(restaurant.getRestaurantId()).get().getCost())).collect(Collectors.toList());
+                return userCityRestaurants.stream().sorted(Comparator.comparingDouble(FilteredRestaurantDTO::getCost)).collect(Collectors.toList());
             case DEFAULT:
                 return userCityRestaurants;
         }
@@ -79,22 +73,22 @@ public class RestaurantService extends AbstractCrudService<Restaurant> {
 
     private void fillFilteredRestaurantsWithDeliveryFee(User user, List<FilteredRestaurantDTO> userCityRestaurants) {
         userCityRestaurants.forEach(userCityRestaurant -> {
-            Double deliveryFee = distanceCalculatorService.calculateRestaurantDeliveryFeeBasedOnDistance(user, userCityRestaurant.getRestaurantId(), userCityRestaurant);
+            Double deliveryFee = distanceCalculatorService.calculateRestaurantDeliveryFeeBasedOnDistance(user, userCityRestaurant);
             userCityRestaurant.setDeliveryFee(deliveryFee);
         });
     }
 
     private void fillFilteredRestaurantsWithDeliveryTime(User user, List<FilteredRestaurantDTO> userCityRestaurants) {
         userCityRestaurants.forEach(userCityRestaurant -> {
-            Double deliveryFee = distanceCalculatorService.calculateRestaurantDeliveryTimeBasedOnDistance(user, userCityRestaurant.getRestaurantId(), userCityRestaurant);
-            userCityRestaurant.setDeliveryTime(deliveryFee);
+            Double deliveryFee = distanceCalculatorService.calculateRestaurantDeliveryTimeBasedOnDistance(user, userCityRestaurant);
+            userCityRestaurant.setDeliveryFee(deliveryFee);
         });
     }
 
     private void fillFilteredRestaurantsWithDeliveryDistance(User user, List<FilteredRestaurantDTO> userCityRestaurants) {
         userCityRestaurants.forEach(userCityRestaurant -> {
-            Double deliveryFee = distanceCalculatorService.calculateRestaurantDefaultDeliveryRadius(user, userCityRestaurant.getRestaurantId(), userCityRestaurant);
-            userCityRestaurant.setDistanceFromCustomer(deliveryFee);
+            Double deliveryFee = distanceCalculatorService.calculateRestaurantDefaultDeliveryRadius(user, userCityRestaurant);
+            userCityRestaurant.setDeliveryFee(deliveryFee);
         });
     }
 

@@ -10,8 +10,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-//TODO Fazer o AbstractDao e Replicar essa lógica pr geral
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
@@ -31,7 +29,7 @@ public class Combo extends GenericFood implements Serializable, IdentifiedEntity
 
     @OneToMany(mappedBy = "combo")
     @JsonBackReference("eatingTags")
-    private List<EatingTag> eatingTags;
+    private List<GenericFoodTag> genericFoodTags;
 
 
 }

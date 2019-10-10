@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
-public class EatingTag implements Serializable, IdentifiedEntity {
+public class GenericFoodTag implements Serializable, IdentifiedEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

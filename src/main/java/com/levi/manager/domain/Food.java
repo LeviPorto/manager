@@ -27,7 +27,7 @@ public class Food extends GenericFood implements Serializable, IdentifiedEntity 
 
     @OneToMany(mappedBy = "food")
     @JsonBackReference("eatingTags")
-    private List<EatingTag> eatingTags;
+    private List<GenericFoodTag> genericFoodTags;
 
     @ManyToOne(targetEntity = Restaurant.class)
     @JoinColumn(name = "restaurant_id", nullable = false)

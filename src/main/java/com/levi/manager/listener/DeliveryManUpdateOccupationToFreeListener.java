@@ -31,8 +31,7 @@ public class DeliveryManUpdateOccupationToFreeListener implements CoordinateCrea
     }
 
     private boolean arrivedAtDestination(CoordinateDTO coordinateDTO, Restaurant restaurant) {
-        return calculateDistanceBetweenPoints(coordinateDTO.getLatitude(), coordinateDTO.getLongitude(),
-                restaurant.getLatitude(), restaurant.getLongitude()) < DISTANCE_CONSIDERED_DELIVERED;
+        return calculateDistanceBetweenPoints(coordinateDTO, restaurant) < DISTANCE_CONSIDERED_DELIVERED;
     }
 }
 
