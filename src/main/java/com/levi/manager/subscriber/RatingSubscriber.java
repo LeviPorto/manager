@@ -1,8 +1,8 @@
 package com.levi.manager.subscriber;
 
 import com.levi.manager.dispatcher.RatingDispatcher;
-import com.levi.manager.dto.AvaliatedRestaurantDTO;
-import com.levi.manager.entity.Restaurant;
+import com.levi.manager.dto.EvaluatedRestaurantDTO;
+import com.levi.manager.domain.Restaurant;
 import com.levi.manager.service.RestaurantService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -20,9 +20,9 @@ public class RatingSubscriber {
     }
 
     @KafkaListener(topics = "RATING_EVENT_SOURCING", groupId = "1234", containerFactory = "kafkaListenerContainerFactory")
-    public void processRatingEventSourcing(@Payload AvaliatedRestaurantDTO avaliatedRestaurantDTO) {
-        Restaurant restaurant = restaurantService.retrieveById(avaliatedRestaurantDTO.getRestaurantId());
-        ratingDispatcher.notifyUpdateRatingListeners(avaliatedRestaurantDTO, restaurant);
+    public void processRatingEventSourcing(@Payload EvaluatedRestaurantDTO evaluatedRestaurantDTO) {
+        Restaurant restaurant = restaurantService.retrieveById(evaluatedRestaurantDTO.getRestaurantId());
+        ratingDispatcher.notifyUpdateRatingListeners(evaluatedRestaurantDTO, restaurant);
     }
 
 }

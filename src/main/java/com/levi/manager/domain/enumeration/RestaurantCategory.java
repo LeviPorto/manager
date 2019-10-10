@@ -1,4 +1,4 @@
-package com.levi.manager.entity.enumeration;
+package com.levi.manager.domain.enumeration;
 
 public enum RestaurantCategory {
 

@@ -1,8 +1,9 @@
 package com.levi.manager.controller;
 
+import com.levi.manager.crud.AbstractCrudController;
 import com.levi.manager.dto.FilteredRestaurantDTO;
 import com.levi.manager.dto.RestaurantSearchDTO;
-import com.levi.manager.entity.Restaurant;
+import com.levi.manager.domain.Restaurant;
 import com.levi.manager.service.RestaurantService;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,37 +12,23 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/manager/restaurant")
-public class RestaurantController {
+public class RestaurantController extends AbstractCrudController<Restaurant> {
 
     private final RestaurantService service;
 
     public RestaurantController(final RestaurantService service) {
+        super(service);
         this.service = service;
     }
 
-    @PostMapping
-    public Restaurant create(@RequestBody Restaurant restaurant) {
-        return service.create(restaurant);
-    }
-
-    @PutMapping("/{id}")
-    public Restaurant update(@RequestBody Restaurant restaurant, @PathVariable Integer id) {
-        return service.update(restaurant, id);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
-        service.remove(id);
+    @GetMapping("/deliveryMan/{deliveryManId}")
+    public Restaurant findByDeliveryMan(@PathVariable Integer deliveryManId) {
+        return service.retrieveByDeliveryMan(deliveryManId);
     }
 
     @PostMapping("/search")
     public List<FilteredRestaurantDTO> search(@RequestBody RestaurantSearchDTO restaurantSearchDTO) {
         return service.retrieveFilteredRestaurants(restaurantSearchDTO);
-    }
-
-    @GetMapping("/{id}")
-    public Restaurant find(@PathVariable Integer id) {
-        return service.retrieveById(id);
     }
 
 }

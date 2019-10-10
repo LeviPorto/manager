@@ -1,7 +1,15 @@
 package com.levi.manager.repository;
 
-import com.levi.manager.entity.Promotion;
-import org.springframework.data.repository.CrudRepository;
+import com.levi.manager.crud.AbstractCrudRepository;
+import com.levi.manager.domain.Promotion;
+import org.springframework.stereotype.Repository;
 
-public interface PromotionRepository extends CrudRepository<Promotion, Integer> {
+import java.util.List;
+
+@Repository
+public interface PromotionRepository extends AbstractCrudRepository<Promotion> {
+
+    List<Promotion> findByRestaurantId(Integer id);
+
+
 }

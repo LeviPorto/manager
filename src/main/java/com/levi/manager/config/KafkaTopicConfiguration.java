@@ -27,4 +27,14 @@ public class KafkaTopicConfiguration {
     public NewTopic topic() {
         return new NewTopic("RATING_EVENT_SOURCING", 1, (short) 1);
     }
+
+    @Bean
+    public NewTopic coordinateTopic() {
+        return new NewTopic("COORDINATE_EVENT_SOURCING", 1, (short) 1);
+    }
+
+    @Bean
+    public NewTopic orderTopic() {
+        return new NewTopic("ORDER_EVENT_SOURCING", 1, (short) 1);
+    }
 }

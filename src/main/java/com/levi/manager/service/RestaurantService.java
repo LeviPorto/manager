@@ -1,10 +1,12 @@
 package com.levi.manager.service;
 
+import com.levi.manager.crud.AbstractCrudService;
 import com.levi.manager.dao.RestaurantDao;
+import com.levi.manager.domain.User;
 import com.levi.manager.dto.FilteredRestaurantDTO;
 import com.levi.manager.dto.RestaurantSearchDTO;
 import com.levi.manager.dto.enumeration.SortSearch;
-import com.levi.manager.entity.Restaurant;
+import com.levi.manager.domain.Restaurant;
 import com.levi.manager.filter.RestaurantFilter;
 import com.levi.manager.repository.RestaurantRepository;
 import org.springframework.stereotype.Service;
@@ -14,57 +16,46 @@ import java.util.stream.Collectors;
 
 //TODO Extrair o loop tendo o distanceCalculator dentro
 
-//TODO Fazer tudo de config
-
 //TODO Ver a ideia de tornar mais funcional, utilizando construtores (ideia eh tirar os setters e refatorar todo código baseado nisso, criando construtores para cada caso)
 
 @Service
-public class RestaurantService {
+public class RestaurantService extends AbstractCrudService<Restaurant> {
 
     private final RestaurantDao dao;
     private final RestaurantRepository repository;
     private final DistanceCalculatorService distanceCalculatorService;
     private final List<RestaurantFilter> restaurantFilters;
+    private final UserService userService;
 
     public RestaurantService(final RestaurantDao dao, final RestaurantRepository repository,
-                             final DistanceCalculatorService distanceCalculatorService, List<RestaurantFilter> restaurantFilters) {
+                             final DistanceCalculatorService distanceCalculatorService, List<RestaurantFilter> restaurantFilters, UserService userService) {
+        super(repository);
         this.dao = dao;
         this.repository = repository;
         this.distanceCalculatorService = distanceCalculatorService;
         this.restaurantFilters = restaurantFilters;
-    }
-
-    public Restaurant create(Restaurant restaurant) {
-        return repository.save(restaurant);
-    }
-
-    public Restaurant update(Restaurant restaurant, Integer id) {
-        restaurant.setId(id);
-        return repository.save(restaurant);
-    }
-
-    public void remove(Integer id) {
-        repository.deleteById(id);
-    }
-
-    public Restaurant retrieveById(Integer id) {
-        return repository.findById(id).get();
+        this.userService = userService;
     }
 
     public List<FilteredRestaurantDTO> retrieveFilteredRestaurants(RestaurantSearchDTO restaurantSearchDTO) {
         List<FilteredRestaurantDTO> userCityRestaurants = dao.findUserCityRestaurants(restaurantSearchDTO);
+        User user = userService.retrieveById(restaurantSearchDTO.getUserId());
 
-        fillFilteredRestaurantsWithDeliveryFee(restaurantSearchDTO.getUserId(), userCityRestaurants);
-        fillFilteredRestaurantsWithDeliveryTime(restaurantSearchDTO.getUserId(), userCityRestaurants);
-        fillFilteredRestaurantsWithDeliveryDistance(restaurantSearchDTO.getUserId(), userCityRestaurants);
+        fillFilteredRestaurantsWithDeliveryFee(user, userCityRestaurants);
+        fillFilteredRestaurantsWithDeliveryTime(user, userCityRestaurants);
+        fillFilteredRestaurantsWithDeliveryDistance(user, userCityRestaurants);
 
         //TODO Fazer Fill do payment acceptance (usando feign para pegar esses dados em batch)
 
-        for(RestaurantFilter restaurantFilter : restaurantFilters) {
+        for (RestaurantFilter restaurantFilter : restaurantFilters) {
             userCityRestaurants = restaurantFilter.filterRestaurant(restaurantSearchDTO, userCityRestaurants);
         }
 
         return sortFilteredRestaurants(userCityRestaurants, restaurantSearchDTO.getSortSearch());
+    }
+
+    public Restaurant retrieveByDeliveryMan(Integer deliveryManId) {
+        return repository.findByDeliveryManId(deliveryManId);
     }
 
     private List<FilteredRestaurantDTO> sortFilteredRestaurants(List<FilteredRestaurantDTO> userCityRestaurants, SortSearch sortSearch) {
@@ -86,23 +77,23 @@ public class RestaurantService {
         return userCityRestaurants;
     }
 
-    private void fillFilteredRestaurantsWithDeliveryFee(Integer userId, List<FilteredRestaurantDTO> userCityRestaurants) {
+    private void fillFilteredRestaurantsWithDeliveryFee(User user, List<FilteredRestaurantDTO> userCityRestaurants) {
         userCityRestaurants.forEach(userCityRestaurant -> {
-            Double deliveryFee = distanceCalculatorService.calculateRestaurantDeliveryFeeBasedOnDistance(userId, userCityRestaurant.getRestaurantId(), userCityRestaurant);
+            Double deliveryFee = distanceCalculatorService.calculateRestaurantDeliveryFeeBasedOnDistance(user, userCityRestaurant.getRestaurantId(), userCityRestaurant);
             userCityRestaurant.setDeliveryFee(deliveryFee);
         });
     }
 
-    private void fillFilteredRestaurantsWithDeliveryTime(Integer userId, List<FilteredRestaurantDTO> userCityRestaurants) {
+    private void fillFilteredRestaurantsWithDeliveryTime(User user, List<FilteredRestaurantDTO> userCityRestaurants) {
         userCityRestaurants.forEach(userCityRestaurant -> {
-            Double deliveryFee = distanceCalculatorService.calculateRestaurantDeliveryTimeBasedOnDistance(userId, userCityRestaurant.getRestaurantId(), userCityRestaurant);
+            Double deliveryFee = distanceCalculatorService.calculateRestaurantDeliveryTimeBasedOnDistance(user, userCityRestaurant.getRestaurantId(), userCityRestaurant);
             userCityRestaurant.setDeliveryTime(deliveryFee);
         });
     }
 
-    private void fillFilteredRestaurantsWithDeliveryDistance(Integer userId, List<FilteredRestaurantDTO> userCityRestaurants) {
+    private void fillFilteredRestaurantsWithDeliveryDistance(User user, List<FilteredRestaurantDTO> userCityRestaurants) {
         userCityRestaurants.forEach(userCityRestaurant -> {
-            Double deliveryFee = distanceCalculatorService.calculateRestaurantDefaultDeliveryRadius(userId, userCityRestaurant.getRestaurantId(), userCityRestaurant);
+            Double deliveryFee = distanceCalculatorService.calculateRestaurantDefaultDeliveryRadius(user, userCityRestaurant.getRestaurantId(), userCityRestaurant);
             userCityRestaurant.setDistanceFromCustomer(deliveryFee);
         });
     }

@@ -14,7 +14,7 @@ public class RestaurantFilterPaycheckPaymentAcceptance implements RestaurantFilt
     @Override
     public List<FilteredRestaurantDTO> filterRestaurant(RestaurantSearchDTO restaurantSearchDTO, List<FilteredRestaurantDTO> userCityRestaurants) {
         PaymentAcceptanceDTO paymentAcceptanceDTO = restaurantSearchDTO.getPaymentAcceptanceDTO();
-        if(paymentAcceptanceDTO != null) {
+        if (paymentAcceptanceDTO != null) {
             boolean isPaycheckPaymentAcceptance = paymentAcceptanceDTO.isPaycheck();
             if (isPaycheckPaymentAcceptance) {
                 return userCityRestaurants.stream().filter(userCityRestaurant -> userCityRestaurant.getPaymentAcceptanceDTO().isPaycheck()).collect(Collectors.toList());

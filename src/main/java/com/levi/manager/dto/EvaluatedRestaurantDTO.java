@@ -3,7 +3,7 @@ package com.levi.manager.dto;
 import lombok.Data;
 
 @Data
-public class AvaliatedRestaurantDTO {
+public class EvaluatedRestaurantDTO {
 
     private Integer restaurantId;
     private Double rating;

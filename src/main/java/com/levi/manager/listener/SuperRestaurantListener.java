@@ -1,11 +1,9 @@
 package com.levi.manager.listener;
 
-import com.levi.manager.dto.AvaliatedRestaurantDTO;
-import com.levi.manager.entity.Restaurant;
+import com.levi.manager.dto.EvaluatedRestaurantDTO;
+import com.levi.manager.domain.Restaurant;
 import com.levi.manager.service.RestaurantService;
 import org.springframework.stereotype.Component;
-
-//TODO Verificar se uma comida/restaurante pode ter mais de um category
 
 @Component
 public class SuperRestaurantListener implements UpdateRatingListener {
@@ -17,8 +15,8 @@ public class SuperRestaurantListener implements UpdateRatingListener {
     }
 
     @Override
-    public void ratingWasUpdated(AvaliatedRestaurantDTO avaliatedRestaurantDTO, Restaurant restaurant) {
-        restaurant.setSuperRestaurant(avaliatedRestaurantDTO.isSuperRestaurant());
+    public void ratingWasUpdated(EvaluatedRestaurantDTO evaluatedRestaurantDTO, Restaurant restaurant) {
+        restaurant.setIsSuperRestaurant(evaluatedRestaurantDTO.isSuperRestaurant());
         restaurantService.create(restaurant);
     }
 

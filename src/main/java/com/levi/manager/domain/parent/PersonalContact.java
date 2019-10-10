@@ -1,4 +1,4 @@
-package com.levi.manager.entity.parent;
+package com.levi.manager.domain.parent;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,6 +1,6 @@
 package com.levi.manager.util;
 
-import com.levi.manager.entity.*;
+import com.levi.manager.domain.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -36,7 +36,7 @@ public class HibernateUtil {
                 configuration.addAnnotatedClass(Restaurant.class);
                 configuration.addAnnotatedClass(Combo.class);
                 configuration.addAnnotatedClass(ComboItem.class);
-                configuration.addAnnotatedClass(Deliveryman.class);
+                configuration.addAnnotatedClass(DeliveryMan.class);
                 configuration.addAnnotatedClass(Food.class);
                 configuration.addAnnotatedClass(Promotion.class);
                 configuration.addAnnotatedClass(PromotionItem.class);

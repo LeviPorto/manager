@@ -2,7 +2,7 @@ package com.levi.manager.filter;
 
 import com.levi.manager.dto.FilteredRestaurantDTO;
 import com.levi.manager.dto.RestaurantSearchDTO;
-import com.levi.manager.entity.enumeration.RestaurantCategory;
+import com.levi.manager.domain.enumeration.RestaurantCategory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

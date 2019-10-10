@@ -1,9 +1,9 @@
 package com.levi.manager.repository;
 
-import com.levi.manager.entity.PromotionItem;
-import org.springframework.data.repository.CrudRepository;
+import com.levi.manager.crud.AbstractCrudRepository;
+import com.levi.manager.domain.PromotionItem;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PromotionItemRepository extends CrudRepository<PromotionItem, Integer> {
+public interface PromotionItemRepository extends AbstractCrudRepository<PromotionItem> {
 }

@@ -14,7 +14,7 @@ public class RestaurantFilterOnlineTicketPaymentAcceptance implements Restaurant
     @Override
     public List<FilteredRestaurantDTO> filterRestaurant(RestaurantSearchDTO restaurantSearchDTO, List<FilteredRestaurantDTO> userCityRestaurants) {
         PaymentAcceptanceDTO paymentAcceptanceDTO = restaurantSearchDTO.getPaymentAcceptanceDTO();
-        if(paymentAcceptanceDTO != null) {
+        if (paymentAcceptanceDTO != null) {
             boolean isOnlineTicket = paymentAcceptanceDTO.isOnlineTicket();
             if (isOnlineTicket) {
                 return userCityRestaurants.stream().filter(userCityRestaurant -> userCityRestaurant.getPaymentAcceptanceDTO().isOnlineTicket()).collect(Collectors.toList());

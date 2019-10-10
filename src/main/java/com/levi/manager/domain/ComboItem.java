@@ -1,5 +1,6 @@
-package com.levi.manager.entity;
+package com.levi.manager.domain;
 
+import com.levi.manager.crud.IdentifiedEntity;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
-public class ComboItem implements Serializable {
+public class ComboItem implements Serializable, IdentifiedEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,13 +17,12 @@ public class ComboItem implements Serializable {
     @Column
     private Double quantity;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    private Food food;
+    @OneToOne
+    private Restaurant restaurant;
 
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Combo.class)
+    @ManyToOne(targetEntity = Combo.class)
     @JoinColumn(name = "combo_id", nullable = false)
     private Combo combo;
-
 
 
 }

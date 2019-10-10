@@ -1,7 +1,9 @@
 package com.levi.manager.repository;
 
-import com.levi.manager.entity.ComboItem;
-import org.springframework.data.repository.CrudRepository;
+import com.levi.manager.crud.AbstractCrudRepository;
+import com.levi.manager.domain.ComboItem;
+import org.springframework.stereotype.Repository;
 
-public interface ComboItemRepository extends CrudRepository<ComboItem, Integer> {
+@Repository
+public interface ComboItemRepository extends AbstractCrudRepository<ComboItem> {
 }

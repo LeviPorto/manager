@@ -1,6 +1,7 @@
-package com.levi.manager.entity;
+package com.levi.manager.domain;
 
-import com.levi.manager.entity.parent.PersonalContact;
+import com.levi.manager.crud.IdentifiedEntity;
+import com.levi.manager.domain.parent.PersonalContact;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,7 +14,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-public class User extends PersonalContact implements Serializable {
+public class User extends PersonalContact implements Serializable, IdentifiedEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
