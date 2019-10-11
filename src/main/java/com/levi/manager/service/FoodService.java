@@ -5,6 +5,9 @@ import com.levi.manager.dto.FilteredRestaurantDTO;
 import com.levi.manager.dto.RestaurantSearchDTO;
 import com.levi.manager.domain.Food;
 import com.levi.manager.repository.FoodRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,9 +39,14 @@ public class FoodService extends AbstractCrudService<Food> {
         return filteredFoods;
     }
 
+    @Cacheable(value = "FOODS_BY_RESTAURANT_ID_", key = "{#restaurantId}", unless = "#result == null || #result.isEmpty()")
     public List<Food> retrieveByRestaurant(Integer restaurantId) {
         return repository.findByRestaurantId(restaurantId);
     }
 
+    @Caching(evict = {@CacheEvict(value = "FOODS_BY_RESTAURANT_ID_", key = "{#food.restaurant.id}")})
+    public Food create(Food food) {
+        return repository.save(food);
+    }
 
 }

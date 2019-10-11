@@ -10,6 +10,9 @@ import com.levi.manager.domain.Restaurant;
 import com.levi.manager.filter.RestaurantFilter;
 import com.levi.manager.repository.RestaurantRepository;
 import com.levi.manager.service.nontransactional.DistanceCalculatorService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -49,8 +52,14 @@ public class RestaurantService extends AbstractCrudService<Restaurant> {
         return sortFilteredRestaurants(userCityRestaurants, restaurantSearchDTO.getSortSearch());
     }
 
+    @Cacheable(value = "RESTAURANTS_BY_DELIVERY_MAN_ID_", key = "{#deliveryManId}", unless = "#result == null")
     public Restaurant retrieveByDeliveryMan(Integer deliveryManId) {
         return repository.findByDeliveryManId(deliveryManId);
+    }
+
+    @Caching(evict = {@CacheEvict(value = "RESTAURANTS_BY_DELIVERY_MAN_ID_", key = "{#restaurant.deliveryMan.id}")})
+    public Restaurant create(Restaurant restaurant) {
+        return repository.save(restaurant);
     }
 
     private List<FilteredRestaurantDTO> sortFilteredRestaurants(List<FilteredRestaurantDTO> userCityRestaurants, SortSearch sortSearch) {

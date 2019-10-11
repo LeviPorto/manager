@@ -5,10 +5,13 @@ import com.levi.manager.domain.enumeration.Occupation;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Data
 @Entity
+@Table(indexes = {
+        @Index(name = "occupation_restaurant_idx", columnList = "occupation, restaurant_id")})
 public class DeliveryMan implements Serializable, IdentifiedEntity {
 
     @Id
@@ -16,9 +19,10 @@ public class DeliveryMan implements Serializable, IdentifiedEntity {
     private Integer id;
 
     @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Occupation occupation;
 
@@ -26,7 +30,8 @@ public class DeliveryMan implements Serializable, IdentifiedEntity {
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
-    @Column
+    @Column(nullable = false)
+    @NotBlank
     private String phoneIMEI;
 
     public static boolean hasFreeOccupation(DeliveryMan deliveryMan, Occupation occupation) {

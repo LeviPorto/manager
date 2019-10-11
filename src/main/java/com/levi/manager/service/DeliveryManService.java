@@ -36,7 +36,7 @@ public class DeliveryManService extends AbstractCrudService<DeliveryMan> {
         return repository.save(deliveryMan);
     }
 
-    @Cacheable(value = "DELIVERY_MAN_BY_ID", key = "{#id}", unless = "#result == null")
+    @Cacheable(value = "DELIVERY_MAN_BY_ID_", key = "{#id}", unless = "#result == null")
     public DeliveryMan retrieveById(Integer id) {
         return repository.findById(id).get();
     }
@@ -45,7 +45,7 @@ public class DeliveryManService extends AbstractCrudService<DeliveryMan> {
         return repository.save(deliveryMan);
     }
 
-    @Caching(evict = @CacheEvict(value = "RATING_BY_RESTAURANT_ID_", key = "{#deliveryMan.id}"))
+    @Caching(evict = @CacheEvict(value = "DELIVERY_MAN_BY_ID_", key = "{#deliveryMan.id}"))
     public DeliveryMan update(DeliveryMan deliveryMan, Integer id) {
         deliveryMan.setId(id);
         return repository.save(deliveryMan);

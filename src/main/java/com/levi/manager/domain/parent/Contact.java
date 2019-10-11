@@ -5,17 +5,21 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @MappedSuperclass
 abstract class Contact extends LocalizedEntity {
 
-    @Column
+    @Column(nullable = false)
+    @NotBlank
     private String phone;
-    @Column
+    @Column(nullable = false)
+    @NotBlank
     private String name;
-    @Column
+    @Column(nullable = false)
+    @NotBlank
     private String email;
     @Column
     private String simpleName;
@@ -25,11 +29,14 @@ abstract class Contact extends LocalizedEntity {
     private String number;
     @Column
     private String complement;
-    @Column
+    @Column(nullable = false)
+    @NotBlank
     private String city;
-    @Column
+    @Column(nullable = false)
+    @NotBlank
     private String state;
-    @Column
+    @Column(nullable = false)
+    @NotBlank
     private String country;
 
 }

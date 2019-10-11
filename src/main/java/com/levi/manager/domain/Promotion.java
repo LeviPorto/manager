@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class Promotion extends GenericFood implements Serializable, IdentifiedEn
     private List<GenericFoodTag> genericFoodTags;
 
     @ManyToOne(targetEntity = Restaurant.class)
+    @NotNull
     private Restaurant restaurant;
 
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,12 +19,6 @@ public class Food extends GenericFood implements Serializable, IdentifiedEntity 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @OneToOne
-    private ComboItem comboItem;
-
-    @OneToOne
-    private PromotionItem promotionItem;
 
     @OneToMany(mappedBy = "food")
     @JsonBackReference("eatingTags")

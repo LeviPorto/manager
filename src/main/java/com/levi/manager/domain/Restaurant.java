@@ -21,13 +21,16 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(indexes = {
+        @Index(name = "city_idx", columnList = "city"),
+        @Index(name = "name_city_idx", columnList = "name, city")})
 public class Restaurant extends CompanyContact implements Serializable, IdentifiedEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     @NotNull
     private RestaurantCategory category;
@@ -35,7 +38,7 @@ public class Restaurant extends CompanyContact implements Serializable, Identifi
     @Column
     private Boolean isSuperRestaurant;
 
-    @Column
+    @Column(name = "is_ifood_delivery")
     private Boolean isIFoodDelivery;
 
     @Column

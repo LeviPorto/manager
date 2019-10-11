@@ -5,13 +5,15 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @MappedSuperclass
 public abstract class PersonalContact extends Contact {
 
-    @Column
+    @Column(nullable = false)
+    @NotBlank
     private String CPF;
 
 }

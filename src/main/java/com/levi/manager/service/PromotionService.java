@@ -5,6 +5,9 @@ import com.levi.manager.dto.FilteredRestaurantDTO;
 import com.levi.manager.dto.RestaurantSearchDTO;
 import com.levi.manager.domain.Promotion;
 import com.levi.manager.repository.PromotionRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,8 +39,14 @@ public class PromotionService extends AbstractCrudService<Promotion> {
         return filteredPromotions;
     }
 
+    @Cacheable(value = "PROMOTIONS_BY_RESTAURANT_ID_", key = "{#restaurantId}", unless = "#result == null || #result.isEmpty()")
     public List<Promotion> retrieveByRestaurant(Integer restaurantId) {
         return repository.findByRestaurantId(restaurantId);
+    }
+
+    @Caching(evict = {@CacheEvict(value = "PROMOTIONS_BY_RESTAURANT_ID_", key = "{#promotion.restaurant.id}")})
+    public Promotion create(Promotion promotion) {
+        return repository.save(promotion);
     }
 
 }
