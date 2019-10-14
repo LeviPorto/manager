@@ -25,8 +25,8 @@ public class FoodService extends AbstractCrudService<Food> {
         this.repository = repository;
     }
 
-    public List<Food> retrieveFilteredFoods(String searchedName, String userCity) {
-        List<FilteredRestaurantDTO> filteredRestaurants = restaurantService.retrieveFilteredRestaurants(RestaurantSearchDTO.builder().userCity(userCity).build());
+    public List<Food> retrieveFilteredFoods(String searchedName, String userCity, Integer userId) {
+        List<FilteredRestaurantDTO> filteredRestaurants = restaurantService.retrieveFilteredRestaurants(RestaurantSearchDTO.builder().userCity(userCity).userId(userId).build());
         List<Food> filteredFoods = new ArrayList<>();
 
         if (searchedName != null) {

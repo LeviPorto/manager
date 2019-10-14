@@ -21,7 +21,7 @@ public class DistanceCalculatorService {
 
     public Double calculateRestaurantDeliveryFeeBasedOnDistance(User user, FilteredRestaurantDTO filteredRestaurantDTO) {
         Double distanceFromUserToRestaurant = calculateDistanceBetweenPoints(user, filteredRestaurantDTO);
-        Double restaurantDeliveryFee = distanceFromUserToRestaurant * filteredRestaurantDTO.getDeliveryFee();
+        Double restaurantDeliveryFee = distanceFromUserToRestaurant * filteredRestaurantDTO.getRestaurantDeliveryFee();
 
         filteredRestaurantDTO.setDeliveryFee(restaurantDeliveryFee);
 

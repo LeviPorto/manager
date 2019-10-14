@@ -25,8 +25,8 @@ public class PromotionService extends AbstractCrudService<Promotion> {
         this.repository = repository1;
     }
 
-    public List<Promotion> retrieveFilteredPromotions(String searchedName, String userCity) {
-        List<FilteredRestaurantDTO> filteredRestaurants = restaurantService.retrieveFilteredRestaurants(RestaurantSearchDTO.builder().userCity(userCity).build());
+    public List<Promotion> retrieveFilteredPromotions(String searchedName, String userCity, Integer userId) {
+        List<FilteredRestaurantDTO> filteredRestaurants = restaurantService.retrieveFilteredRestaurants(RestaurantSearchDTO.builder().userCity(userCity).userId(userId).build());
         List<Promotion> filteredPromotions = new ArrayList<>();
 
         if (searchedName != null) {

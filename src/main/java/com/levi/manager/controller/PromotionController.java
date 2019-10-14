@@ -19,8 +19,8 @@ public class PromotionController extends AbstractCrudController<Promotion> {
     }
 
     @GetMapping("/search")
-    public List<Promotion> getFilteredPromotions(@RequestParam String searchedName, @RequestParam String userCity) {
-        return service.retrieveFilteredPromotions(searchedName, userCity);
+    public List<Promotion> getFilteredPromotions(@RequestParam String searchedName, @RequestParam String userCity, @RequestParam Integer userId) {
+        return service.retrieveFilteredPromotions(searchedName, userCity, userId);
     }
 
     @GetMapping("/restaurant/{restaurantId}")

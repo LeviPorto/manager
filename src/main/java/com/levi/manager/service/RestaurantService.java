@@ -45,8 +45,10 @@ public class RestaurantService extends AbstractCrudService<Restaurant> {
         fillFilteredRestaurantsWithDeliveryTime(user, userCityRestaurants);
         fillFilteredRestaurantsWithDeliveryDistance(user, userCityRestaurants);
 
-        for (RestaurantFilter restaurantFilter : restaurantFilters) {
-            userCityRestaurants = restaurantFilter.filterRestaurant(restaurantSearchDTO, userCityRestaurants);
+        if(!restaurantFilters.isEmpty()) {
+            for (RestaurantFilter restaurantFilter : restaurantFilters) {
+                userCityRestaurants = restaurantFilter.filterRestaurant(restaurantSearchDTO, userCityRestaurants);
+            }
         }
 
         return sortFilteredRestaurants(userCityRestaurants, restaurantSearchDTO.getSortSearch());

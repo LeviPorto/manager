@@ -1,6 +1,5 @@
 package com.levi.manager.service;
 
-import com.levi.manager.crud.AbstractCrudRepository;
 import com.levi.manager.crud.AbstractCrudService;
 import com.levi.manager.domain.DeliveryMan;
 import com.levi.manager.domain.enumeration.Occupation;
@@ -17,9 +16,9 @@ public class DeliveryManService extends AbstractCrudService<DeliveryMan> {
 
     private final DeliveryManRepository repository;
 
-    public DeliveryManService(AbstractCrudRepository<DeliveryMan> repository, DeliveryManRepository repository1) {
+    public DeliveryManService(DeliveryManRepository repository) {
         super(repository);
-        this.repository = repository1;
+        this.repository = repository;
     }
 
     public DeliveryMan retrieveFirstFreeDeliveryMan(Integer restaurantId) {

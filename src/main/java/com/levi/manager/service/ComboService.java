@@ -25,8 +25,8 @@ public class ComboService extends AbstractCrudService<Combo> {
         this.restaurantService = restaurantService;
     }
 
-    public List<Combo> retrieveFilteredCombos(String searchedName, String userCity) {
-        List<FilteredRestaurantDTO> filteredRestaurants = restaurantService.retrieveFilteredRestaurants(RestaurantSearchDTO.builder().userCity(userCity).build());
+    public List<Combo> retrieveFilteredCombos(String searchedName, String userCity, Integer userId) {
+        List<FilteredRestaurantDTO> filteredRestaurants = restaurantService.retrieveFilteredRestaurants(RestaurantSearchDTO.builder().userCity(userCity).userId(userId).build());
         List<Combo> filteredCombos = new ArrayList<>();
 
         if (searchedName != null) {
