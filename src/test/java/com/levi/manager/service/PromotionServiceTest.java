@@ -38,7 +38,7 @@ public class PromotionServiceTest {
     private final String SEARCHED_NAME = "Promotion 1";
     private final Integer USER_ID = 1;
 
-    private final String FIRST_COMBO_NAME = "Promotion 1";
+    private final String COMBO_NAME = "Promotion 1";
     private final String SECOND_COMBO_NAME = "Promotion 2";
     private final String THIRD_COMBO_NAME = "Promotion 3";
 
@@ -68,7 +68,7 @@ public class PromotionServiceTest {
     private List<FilteredRestaurantDTO> givenFilteredRestaurants() {
         FilteredRestaurantDTO firstFilteredRestaurantDTO = new FilteredRestaurantDTO();
         Promotion firstPromotion = new Promotion();
-        firstPromotion.setName(FIRST_COMBO_NAME);
+        firstPromotion.setName(COMBO_NAME);
         firstPromotion.setCategory(FoodCategory.BRAZILIAN_FOOD);
         Promotion secondPromotion = new Promotion();
         secondPromotion.setName(SECOND_COMBO_NAME);
@@ -84,7 +84,7 @@ public class PromotionServiceTest {
 
     private List<Promotion> givenPromotions() {
         Promotion firstPromotion = new Promotion();
-        firstPromotion.setName(FIRST_COMBO_NAME);
+        firstPromotion.setName(COMBO_NAME);
         firstPromotion.setCategory(FoodCategory.BRAZILIAN_FOOD);
         Promotion secondPromotion = new Promotion();
         secondPromotion.setName(SECOND_COMBO_NAME);
@@ -97,7 +97,7 @@ public class PromotionServiceTest {
 
     private List<Promotion> givenFoundPromotions() {
         Promotion promotion = new Promotion();
-        promotion.setName(FIRST_COMBO_NAME);
+        promotion.setName(COMBO_NAME);
         promotion.setCategory(FoodCategory.BRAZILIAN_FOOD);
         return Collections.singletonList(promotion);
     }

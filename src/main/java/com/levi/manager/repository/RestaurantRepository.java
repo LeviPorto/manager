@@ -12,6 +12,4 @@ public interface RestaurantRepository extends AbstractCrudRepository<Restaurant>
 
     Restaurant findByDeliveryManId(Integer deliveryManId);
 
-    List<Restaurant> findByIdIn(List<Integer> ids);
-
 }

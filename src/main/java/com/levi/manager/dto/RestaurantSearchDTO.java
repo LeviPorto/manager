@@ -15,8 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class RestaurantSearchDTO {
 
-    private Integer deliveryFee;
-    private Integer deliveryTime;
+    private Double deliveryFee;
+    private Double deliveryTime;
     private List<RestaurantCategory> categories;
     private boolean isSuperRestaurant;
     private boolean hasTrackedDelivery;

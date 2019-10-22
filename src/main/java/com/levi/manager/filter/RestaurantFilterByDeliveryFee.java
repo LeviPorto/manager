@@ -12,7 +12,7 @@ public class RestaurantFilterByDeliveryFee implements RestaurantFilter {
 
     @Override
     public List<FilteredRestaurantDTO> filterRestaurant(RestaurantSearchDTO restaurantSearchDTO, List<FilteredRestaurantDTO> userCityRestaurants) {
-        Integer deliveryFeeFilter = restaurantSearchDTO.getDeliveryFee();
+        Double deliveryFeeFilter = restaurantSearchDTO.getDeliveryFee();
         if (deliveryFeeFilter != null) {
             return userCityRestaurants.stream().filter(userCityRestaurant -> userCityRestaurant.getDeliveryFee() < deliveryFeeFilter).collect(Collectors.toList());
         } else {

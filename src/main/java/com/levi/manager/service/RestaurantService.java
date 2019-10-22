@@ -74,8 +74,6 @@ public class RestaurantService extends AbstractCrudService<Restaurant> {
                 return userCityRestaurants.stream().sorted(Comparator.comparingDouble(FilteredRestaurantDTO::getDistanceFromCustomer)).collect(Collectors.toList());
             case SHORTEST_DELIVERY_TIME:
                 return userCityRestaurants.stream().sorted(Comparator.comparingDouble(FilteredRestaurantDTO::getDeliveryTime)).collect(Collectors.toList());
-            case SHORTEST_DELIVERY_PRICE:
-                return userCityRestaurants.stream().sorted(Comparator.comparingDouble(FilteredRestaurantDTO::getCost)).collect(Collectors.toList());
             case DEFAULT:
                 return userCityRestaurants;
         }
@@ -92,14 +90,14 @@ public class RestaurantService extends AbstractCrudService<Restaurant> {
     private void fillFilteredRestaurantsWithDeliveryTime(User user, List<FilteredRestaurantDTO> userCityRestaurants) {
         userCityRestaurants.forEach(userCityRestaurant -> {
             Double deliveryFee = distanceCalculatorService.calculateRestaurantDeliveryTimeBasedOnDistance(user, userCityRestaurant);
-            userCityRestaurant.setDeliveryFee(deliveryFee);
+            userCityRestaurant.setDeliveryTime(deliveryFee);
         });
     }
 
     private void fillFilteredRestaurantsWithDeliveryDistance(User user, List<FilteredRestaurantDTO> userCityRestaurants) {
         userCityRestaurants.forEach(userCityRestaurant -> {
             Double deliveryFee = distanceCalculatorService.calculateRestaurantDefaultDeliveryRadius(user, userCityRestaurant);
-            userCityRestaurant.setDeliveryFee(deliveryFee);
+            userCityRestaurant.setDistanceFromCustomer(deliveryFee);
         });
     }
 

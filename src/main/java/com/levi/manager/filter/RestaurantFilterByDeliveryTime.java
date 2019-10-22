@@ -12,7 +12,7 @@ public class RestaurantFilterByDeliveryTime implements RestaurantFilter {
 
     @Override
     public List<FilteredRestaurantDTO> filterRestaurant(RestaurantSearchDTO restaurantSearchDTO, List<FilteredRestaurantDTO> userCityRestaurants) {
-        Integer deliveryTimeFilter = restaurantSearchDTO.getDeliveryTime();
+        Double deliveryTimeFilter = restaurantSearchDTO.getDeliveryTime();
         if (deliveryTimeFilter != null) {
             return userCityRestaurants.stream().filter(userCityRestaurant -> userCityRestaurant.getDeliveryTime() < deliveryTimeFilter).collect(Collectors.toList());
         } else {

@@ -38,7 +38,7 @@ public class ComboServiceTest {
     private final String SEARCHED_NAME = "Combo 1";
     private final Integer USER_ID = 1;
 
-    private final String FIRST_COMBO_NAME = "Combo 1";
+    private final String COMBO_NAME = "Combo 1";
     private final String SECOND_COMBO_NAME = "Combo 2";
     private final String THIRD_COMBO_NAME = "Combo 3";
 
@@ -68,7 +68,7 @@ public class ComboServiceTest {
     private List<FilteredRestaurantDTO> givenFilteredRestaurants() {
         FilteredRestaurantDTO firstFilteredRestaurantDTO = new FilteredRestaurantDTO();
         Combo firstCombo = new Combo();
-        firstCombo.setName(FIRST_COMBO_NAME);
+        firstCombo.setName(COMBO_NAME);
         firstCombo.setCategory(FoodCategory.BRAZILIAN_FOOD);
         Combo secondCombo = new Combo();
         secondCombo.setName(SECOND_COMBO_NAME);
@@ -84,7 +84,7 @@ public class ComboServiceTest {
 
     private List<Combo> givenCombos() {
         Combo firstCombo = new Combo();
-        firstCombo.setName(FIRST_COMBO_NAME);
+        firstCombo.setName(COMBO_NAME);
         firstCombo.setCategory(FoodCategory.BRAZILIAN_FOOD);
         Combo secondCombo = new Combo();
         secondCombo.setName(SECOND_COMBO_NAME);
@@ -97,7 +97,7 @@ public class ComboServiceTest {
 
     private List<Combo> givenFoundCombos() {
         Combo combo = new Combo();
-        combo.setName(FIRST_COMBO_NAME);
+        combo.setName(COMBO_NAME);
         combo.setCategory(FoodCategory.BRAZILIAN_FOOD);
         return Collections.singletonList(combo);
     }
