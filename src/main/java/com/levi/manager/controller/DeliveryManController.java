@@ -18,7 +18,7 @@ public class DeliveryManController extends AbstractCrudController<DeliveryMan> {
         this.service = service;
     }
 
-    @GetMapping("restaurant/{restaurantId}/waitingAcceptance")
+    @GetMapping("/restaurant/{restaurantId}/waitingAcceptance")
     public List<DeliveryMan> findByRestaurantAndWaitingAcceptance(@PathVariable Integer restaurantId) {
         return service.retrieveByRestaurantAndWaitingAcceptance(restaurantId);
     }

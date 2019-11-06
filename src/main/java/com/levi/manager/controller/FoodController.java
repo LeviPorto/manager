@@ -19,7 +19,7 @@ public class FoodController extends AbstractCrudController<Food> {
     }
 
     @GetMapping("/search")
-    public List<Food> getFilteredFoods(@RequestParam String searchedName, @RequestParam String userCity, @RequestParam Integer userId) {
+    public List<Food> search(@RequestParam String searchedName, @RequestParam String userCity, @RequestParam Integer userId) {
         return service.retrieveFilteredFoods(searchedName, userCity, userId);
     }
 

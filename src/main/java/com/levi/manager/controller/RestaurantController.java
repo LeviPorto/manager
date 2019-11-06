@@ -21,14 +21,14 @@ public class RestaurantController extends AbstractCrudController<Restaurant> {
         this.service = service;
     }
 
-    @GetMapping("/deliveryMan/{deliveryManId}")
-    public Restaurant findByDeliveryMan(@PathVariable Integer deliveryManId) {
-        return service.retrieveByDeliveryMan(deliveryManId);
-    }
-
     @PostMapping("/search")
     public List<FilteredRestaurantDTO> search(@RequestBody RestaurantSearchDTO restaurantSearchDTO) {
         return service.retrieveFilteredRestaurants(restaurantSearchDTO);
+    }
+
+    @GetMapping("/deliveryMan/{deliveryManId}")
+    public Restaurant findByDeliveryMan(@PathVariable Integer deliveryManId) {
+        return service.retrieveByDeliveryMan(deliveryManId);
     }
 
 }

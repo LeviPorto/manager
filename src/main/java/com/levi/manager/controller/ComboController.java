@@ -19,7 +19,7 @@ public class ComboController extends AbstractCrudController<Combo> {
     }
 
     @GetMapping("/search")
-    public List<Combo> getFilteredCombos(@RequestParam String searchedName, @RequestParam String userCity, @RequestParam Integer userId) {
+    public List<Combo> search(@RequestParam String searchedName, @RequestParam String userCity, @RequestParam Integer userId) {
         return service.retrieveFilteredCombos(searchedName, userCity, userId);
     }
 
